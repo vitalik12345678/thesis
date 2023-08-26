@@ -24,8 +24,5 @@ public abstract class Contributor {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id",referencedColumnName = "role_id")
-    private Role role;
 
 }

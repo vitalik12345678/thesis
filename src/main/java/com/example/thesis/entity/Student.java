@@ -11,7 +11,7 @@ import java.util.List;
 @Table
 @Getter
 @Setter
-public class Student extends Contributor implements EntityWithId<Long> {
+public class Student implements EntityWithId<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +25,10 @@ public class Student extends Contributor implements EntityWithId<Long> {
     @OneToOne
     @JoinColumn(name = "theme_id",referencedColumnName = "theme_id",unique = true)
     private Theme theme;
+
+    @OneToOne
+    @JoinColumn(name = "user_id",referencedColumnName = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "scientific_adviser",referencedColumnName = "teacher_id")

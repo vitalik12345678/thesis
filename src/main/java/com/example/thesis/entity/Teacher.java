@@ -10,7 +10,7 @@ import java.util.List;
 @Table
 @Getter
 @Setter
-public class Teacher extends Contributor implements EntityWithId<Long> {
+public class Teacher implements EntityWithId<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +25,10 @@ public class Teacher extends Contributor implements EntityWithId<Long> {
 
     @OneToMany(mappedBy = "teacher")
     private List<TeacherStudentRequest> requestList;
+
+    @OneToOne
+    @JoinColumn(name = "user_id",referencedColumnName = "user_id")
+    private User user;
 
     @Override
     public Long getId () {
