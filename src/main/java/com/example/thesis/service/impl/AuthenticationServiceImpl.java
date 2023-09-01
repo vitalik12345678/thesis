@@ -25,7 +25,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtDTO authorize (LoginDTO loginDTO) throws AuthenticationException {
-        System.out.println(new BCryptPasswordEncoder().encode(loginDTO.getPassword()));
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDTO.getEmail(),

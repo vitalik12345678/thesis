@@ -2,7 +2,10 @@ package com.example.thesis.conroller;
 
 import com.example.thesis.dto.JwtDTO;
 import com.example.thesis.dto.LoginDTO;
-import com.example.thesis.service.AuthenticationService;
+import com.example.thesis.dto.StudentRegistrationDTO;
+import com.example.thesis.dto.TeacherRegistrationDTO;
+import com.example.thesis.facade.AuthenticationFacade;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,33 +20,36 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class AuthenticationController {
 
-/*
-    private final UserService userService;
-*/
-    private final AuthenticationService authenticationService;
+    private final AuthenticationFacade authenticationFacade;
 
     @Autowired
-    public AuthenticationController (AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
+    public AuthenticationController (AuthenticationFacade authenticationFacade) {
+        this.authenticationFacade = authenticationFacade;
     }
 
-/*
-    @PostMapping("/signup")
-    public ResponseEntity<UserDTO> signUp(@RequestBody UserDTO userDTO) {
-        log.info("signUp user '{}'", userDTO);
+    @PostMapping("student/signup")
+    public ResponseEntity<Void> studentSignUp(@RequestBody @Valid StudentRegistrationDTO studentRegistrationDTO) {
 
-        UserDTO savedUserDTO = userService.create(userDTO);
+        authenticationFacade.registration(studentRegistrationDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUserDTO);
-    }*/
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("teacher/signup")
+    public ResponseEntity<Void> teacherSighUp(@RequestBody @Valid TeacherRegistrationDTO teacherRegistrationDTO) {
+
+        authenticationFacade.registration(teacherRegistrationDTO);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<JwtDTO> login(@RequestBody LoginDTO loginDTO) {
         log.trace("authentication for user '{}'", loginDTO.getEmail());
 
-        JwtDTO jwtDTO = authenticationService.authorize(loginDTO);
+        JwtDTO jwtDTO = authenticationFacade.authorize(loginDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(jwtDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(jwtDTO);
     }
 
 
