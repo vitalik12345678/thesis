@@ -1,10 +1,13 @@
 package com.example.thesis.facade;
 
+import com.example.thesis.dto.CurrentUserDTO;
 import com.example.thesis.dto.StudentRegistrationDTO;
 import com.example.thesis.dto.TeacherRegistrationDTO;
 import com.example.thesis.factory.UserFactory;
+import com.example.thesis.security.UserPrincipal;
 import com.example.thesis.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,5 +33,10 @@ public class UserFacade {
         var user = userFactory.fromRegistrationDTO(studentRegistrationDTO);
         user = userService.saveStudent(user);
         studentFacade.create(studentRegistrationDTO,user);
+    }
+
+    public CurrentUserDTO getCurrentUser () {
+        var userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userFactory.toCurrentUserDTO(userPrincipal.getUser());
     }
 }
