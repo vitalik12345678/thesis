@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Setter
 public class StudentRegistrationDTO extends TeacherRegistrationDTO {
 
-    private String group;
+    private String cluster;
     private String faculty;
     private LocalDate graduateDate;
     private Degree degree;

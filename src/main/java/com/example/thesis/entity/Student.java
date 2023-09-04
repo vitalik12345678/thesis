@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,15 @@ public class Student implements EntityWithId<Long> {
     @Column(name = "degree")
     @Enumerated(EnumType.STRING)
     private Degree degree;
+
+    @Column(name = "cluster")
+    private String cluster;
+
+    @Column(name = "faculty")
+    private String faculty;
+
+    @Column(name = "graduateDate")
+    private LocalDate graduateDate;
 
     @OneToOne
     @JoinColumn(name = "theme_id",referencedColumnName = "theme_id",unique = true)

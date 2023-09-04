@@ -16,7 +16,7 @@ public class User extends Contributor implements EntityWithId<Long> {
     @Column(name = "user_id")
     private Long userId;
 
-    @ManyToOne
+    @ManyToOne( cascade = CascadeType.MERGE)
     @JoinColumn(name = "role_id",referencedColumnName = "role_id")
     private Role role;
 

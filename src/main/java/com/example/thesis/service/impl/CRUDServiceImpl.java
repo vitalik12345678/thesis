@@ -29,7 +29,7 @@ public abstract class CRUDServiceImpl<ENTITY extends EntityWithId<ID>, ID> imple
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public ENTITY findById (ID id) {
         return getRepository().findById(id).orElseThrow(NotExistObjectException::new);
     }
