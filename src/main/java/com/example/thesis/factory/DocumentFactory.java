@@ -6,6 +6,8 @@ import com.example.thesis.mapper.EntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class DocumentFactory {
@@ -14,5 +16,9 @@ public class DocumentFactory {
 
     public DocumentDTO toDocumentDTO (Document document) {
         return entityMapper.toDocumentDTO(document);
+    }
+
+    public List<DocumentDTO> toDocumentDTOList (List<Document> allByStudentId) {
+        return entityMapper.toDocumentDTOList(allByStudentId);
     }
 }

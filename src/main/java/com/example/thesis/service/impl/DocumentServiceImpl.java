@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -72,5 +73,11 @@ public class DocumentServiceImpl extends CRUDServiceImpl<Document, Long> impleme
         Document document = findById(documentId);
         document.setStage(stage);
         return save(document);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Document> findAllByStudentId (Long studentId) {
+        return documentRepository.findAllByStudentId(studentId);
     }
 }

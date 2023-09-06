@@ -5,6 +5,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DocumentService extends CRUDService<Document,Long> {
@@ -18,4 +19,6 @@ public interface DocumentService extends CRUDService<Document,Long> {
     Document updateApprovedStatus (Long documentId, Boolean isApproved);
 
     Document changeStage (Long documentId, Long stageId);
+
+    List<Document> findAllByStudentId (Long studentId);
 }

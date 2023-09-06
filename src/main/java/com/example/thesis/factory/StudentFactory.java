@@ -1,10 +1,14 @@
 package com.example.thesis.factory;
 
+import com.example.thesis.dto.DocumentDTO;
+import com.example.thesis.dto.StudentFileInfoDTO;
 import com.example.thesis.dto.StudentRegistrationDTO;
 import com.example.thesis.entity.Student;
 import com.example.thesis.mapper.EntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -14,5 +18,9 @@ public class StudentFactory {
 
     public Student fromStudentRegistrationDTO(StudentRegistrationDTO registrationDTO) {
         return entityMapper.fromStudentRegistrationDTO(registrationDTO);
+    }
+
+    public List<StudentFileInfoDTO> toStudentFileInfoDTOList (List<DocumentDTO> documentListByStudentId) {
+        return entityMapper.toStudentFileInfoDTOList(documentListByStudentId);
     }
 }
