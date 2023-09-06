@@ -45,6 +45,9 @@ public class Student implements EntityWithId<Long> {
     private Teacher adviser;
 
     @OneToMany(mappedBy = "student")
+    private List<Document> documentList;
+
+    @OneToMany(mappedBy = "student")
     private List<TeacherStudentRequest> requestList;
 
     @Override

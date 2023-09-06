@@ -3,6 +3,10 @@ package com.example.thesis.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.content.commons.annotations.ContentId;
+import org.springframework.content.commons.annotations.ContentLength;
+
+import java.util.List;
 
 @Entity
 @Table
@@ -20,19 +24,25 @@ public class Document implements EntityWithId<Long> {
         return getDocumentId();
     }
 
-    @Column(name = "name")
-    private String name;
-
     @Column(name = "original_name")
     private String originalName;
 
-    @Column(name = "link")
-    private String link;
+    @Column(name = "content_id")
+    @ContentId
+    private String contentId;
 
-    @Column(name = "extension")
-    private String extension;
+    @Column(name = "approved",columnDefinition = "boolean default false")
+    private Boolean approved;
+
+    @Column(name = "length")
+    @ContentLength
+    private String length;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stage",referencedColumnName = "stage_id")
     private Stage stage;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id",referencedColumnName = "student_id")
+    private Student student;
 }
