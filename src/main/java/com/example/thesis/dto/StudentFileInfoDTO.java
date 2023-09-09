@@ -9,5 +9,6 @@ public class StudentFileInfoDTO {
 
     private String documentId;
     private Boolean approved;
+    private String originalName;
 
 }

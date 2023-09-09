@@ -11,6 +11,7 @@ public class DocumentDTO {
     private String contentId;
     private String studentId;
     private String approved;
+    private String originalName;
     private StageDTO stageDTO;
 
 }

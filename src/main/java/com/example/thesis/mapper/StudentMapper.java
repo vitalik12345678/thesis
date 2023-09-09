@@ -1,5 +1,6 @@
 package com.example.thesis.mapper;
 
+import com.example.thesis.dto.CurrentStudentDTO;
 import com.example.thesis.dto.DocumentDTO;
 import com.example.thesis.dto.StudentFileInfoDTO;
 import com.example.thesis.dto.StudentRegistrationDTO;
@@ -13,4 +14,5 @@ public interface StudentMapper {
 
     List<StudentFileInfoDTO> toStudentFileInfoDTOList (List<DocumentDTO> documentListByStudentId);
 
+    CurrentStudentDTO toCurrentStudentDTO (Student student);
 }

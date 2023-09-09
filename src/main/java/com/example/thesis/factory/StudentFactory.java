@@ -1,5 +1,6 @@
 package com.example.thesis.factory;
 
+import com.example.thesis.dto.CurrentStudentDTO;
 import com.example.thesis.dto.DocumentDTO;
 import com.example.thesis.dto.StudentFileInfoDTO;
 import com.example.thesis.dto.StudentRegistrationDTO;
@@ -22,5 +23,9 @@ public class StudentFactory {
 
     public List<StudentFileInfoDTO> toStudentFileInfoDTOList (List<DocumentDTO> documentListByStudentId) {
         return entityMapper.toStudentFileInfoDTOList(documentListByStudentId);
+    }
+
+    public CurrentStudentDTO toCurrentStudentDTO (Student student) {
+        return entityMapper.toCurrentStudentDTO(student);
     }
 }

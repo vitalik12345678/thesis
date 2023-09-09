@@ -12,5 +12,7 @@ public class CurrentUserDTO {
     private String lastName;
     private String email;
     private RoleDTO roleDTO;
+    private CurrentStudentDTO studentDTO;
+    private CurrentTeacherDTO teacherDTO;
 
 }

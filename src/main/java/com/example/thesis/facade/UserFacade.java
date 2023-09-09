@@ -11,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class UserFacade {
@@ -37,6 +39,23 @@ public class UserFacade {
 
     public CurrentUserDTO getCurrentUser () {
         var userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userFactory.toCurrentUserDTO(userPrincipal.getUser());
+        var user = userPrincipal.getUser();
+        if (Objects.isNull(user)) {
+            throw new RuntimeException("User is null");
+        }
+        var currentUserDTO = userFactory.toCurrentUserDTO(user);
+
+        switch (user.getRole().getName()) {
+            case "teacher" -> {
+                var currentTeacherDTO = teacherFacade.getCurrentTeacherDTOByUserId(user.getUserId());
+                currentUserDTO.setTeacherDTO(currentTeacherDTO);
+            }
+            case "student" -> {
+                var currentStudentDTO = studentFacade.getCurrentStudentDTOByUserId(user.getUserId());
+                currentUserDTO.setStudentDTO(currentStudentDTO);
+            }
+        }
+
+        return currentUserDTO;
     }
 }

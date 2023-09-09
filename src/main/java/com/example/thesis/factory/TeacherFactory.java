@@ -1,5 +1,6 @@
 package com.example.thesis.factory;
 
+import com.example.thesis.dto.CurrentTeacherDTO;
 import com.example.thesis.dto.StudentRegistrationDTO;
 import com.example.thesis.dto.TeacherRegistrationDTO;
 import com.example.thesis.entity.Student;
@@ -18,4 +19,7 @@ public class TeacherFactory {
         return entityMapper.fromTeacherRegistrationDTO(teacherRegistrationDTO);
     }
 
+    public CurrentTeacherDTO toCurrentTeacherDTO (Teacher teacher) {
+        return entityMapper.toCurrentTeacherDTO(teacher);
+    }
 }
