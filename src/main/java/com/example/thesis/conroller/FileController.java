@@ -4,9 +4,11 @@ import com.example.thesis.dto.DocumentDTO;
 import com.example.thesis.dto.FileDTO;
 import com.example.thesis.facade.DocumentFacade;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,14 +28,15 @@ public class FileController {
 
     }
 
-    @GetMapping("/{documentId}")
-    public ResponseEntity<Resource> getFileByContentId(@PathVariable Long documentId) {
+    @SneakyThrows
+    @GetMapping(value = "/{documentId}", produces = { "application/octet-stream" })
+    public ResponseEntity<byte[]> getFileByContentId(@PathVariable Long documentId) {
         var fileDTO = documentFacade.getFileByContentId(documentId);
 
         var header = new HttpHeaders();
         header.set("fullName", fileDTO.getFullName());
 
-        return new ResponseEntity<>(fileDTO.getResource(), header, HttpStatus.OK);
+        return new ResponseEntity<>(fileDTO.getResource().getContentAsByteArray(), header, HttpStatus.OK);
     }
 
     @PutMapping("/{documentId}")
@@ -42,7 +45,7 @@ public class FileController {
         return ResponseEntity.ok(documentFacade.updateApprovedStatus(documentId,isApproved));
     }
 
-    @PutMapping("{documentId}/move-to-next-stage/{stageId}")
+    @PutMapping(value = "{documentId}/move-to-next-stage/{stageId}")
     public ResponseEntity<?> moveToNextStage(@PathVariable Long documentId,
                                              @PathVariable Long stageId) {
         return ResponseEntity.ok(documentFacade.moveToNextStage(documentId,stageId));
