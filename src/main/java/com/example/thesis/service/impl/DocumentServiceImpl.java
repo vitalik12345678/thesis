@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +42,8 @@ public class DocumentServiceImpl extends CRUDServiceImpl<Document, Long> impleme
         Document document = new Document();
         document.setStudent(studentService.findById(studentId));
         document.setOriginalName(file.getOriginalFilename());
+        document.setApproved(false);
+        document.setCreatedDate(LocalDateTime.now());
         this.save(document);
         documentContentStore.setContent(document,file.getResource());
         return document;
@@ -63,6 +66,7 @@ public class DocumentServiceImpl extends CRUDServiceImpl<Document, Long> impleme
     public Document updateApprovedStatus (Long documentId, Boolean isApproved) {
         Document document = findById(documentId);
         document.setApproved(isApproved);
+        document.setApprovedDate(LocalDateTime.now());
         return save(document);
     }
 
