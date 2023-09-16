@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.HeaderWriter;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -33,6 +35,11 @@ public class SecurityConfig {
     public SecurityConfig (UserDetailsService userDetailsService, JwtAuthFilter jwtAthFilter) {
         this.userDetailsService = userDetailsService;
         this.jwtAthFilter = jwtAthFilter;
+    }
+
+    @Bean
+    public HeaderWriter contentSecurityPolicyHeaderWriter() {
+        return new StaticHeadersWriter("Content-Security-Policy", "frame-ancestors 'self' localhost:5173");
     }
 
     @Bean
@@ -60,6 +67,8 @@ public class SecurityConfig {
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement( session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(headers -> headers
+                        .addHeaderWriter(contentSecurityPolicyHeaderWriter()))
                 .build();
     }
 

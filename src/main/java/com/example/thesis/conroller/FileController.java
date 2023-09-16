@@ -29,12 +29,13 @@ public class FileController {
     }
 
     @SneakyThrows
-    @GetMapping(value = "/{documentId}", produces = { "application/octet-stream" })
+    @GetMapping(value = "/{documentId}")
     public ResponseEntity<byte[]> getFileByContentId(@PathVariable Long documentId) {
         var fileDTO = documentFacade.getFileByContentId(documentId);
 
         var header = new HttpHeaders();
         header.set("fullName", fileDTO.getFullName());
+        if (fileDTO.getFullName().endsWith(".pdf")) header.setContentType(MediaType.APPLICATION_PDF);
 
         return new ResponseEntity<>(fileDTO.getResource().getContentAsByteArray(), header, HttpStatus.OK);
     }
