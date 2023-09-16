@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ContentDisposition;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +37,7 @@ public class FileController {
         var header = new HttpHeaders();
         header.set("fullName", fileDTO.getFullName());
         if (fileDTO.getFullName().endsWith(".pdf")) header.setContentType(MediaType.APPLICATION_PDF);
+        header.setContentDisposition(ContentDisposition.inline().filename(fileDTO.getFullName()).build());
 
         return new ResponseEntity<>(fileDTO.getResource().getContentAsByteArray(), header, HttpStatus.OK);
     }
