@@ -1,9 +1,6 @@
 package com.example.thesis.facade;
 
-import com.example.thesis.dto.CurrentStudentDTO;
-import com.example.thesis.dto.StudentFileInfoDTO;
-import com.example.thesis.dto.StudentRegistrationDTO;
-import com.example.thesis.dto.TeacherStudentRequestCreateDTO;
+import com.example.thesis.dto.*;
 import com.example.thesis.entity.User;
 import com.example.thesis.factory.StudentFactory;
 import com.example.thesis.service.StudentService;
@@ -29,11 +26,13 @@ public class StudentFacade {
         studentService.save(student);
     }
 
+    @Transactional(readOnly = true)
     public List<StudentFileInfoDTO> findFileInfoListById (Long studentId) {
         return studentFactory.toStudentFileInfoDTOList(documentFacade.findDocumentListByStudentId(studentId));
     }
 
-    public Object createStudentTeacherRequest (Long studentId, Long teacherId, TeacherStudentRequestCreateDTO createDTO) {
+    @Transactional
+    public StudentTeacherRequestProfileDTO createStudentTeacherRequest (Long studentId, Long teacherId, TeacherStudentRequestCreateDTO createDTO) {
         return requestFacade.createRequest(studentId, teacherId, createDTO);
     }
 
@@ -41,5 +40,11 @@ public class StudentFacade {
     public CurrentStudentDTO getCurrentStudentDTOByUserId (Long userId) {
         var student = studentService.findByUserId(userId);
         return studentFactory.toCurrentStudentDTO(student);
+    }
+
+    @Transactional(readOnly = true)
+    public List<StudentRequestDTO> findAll () {
+        var studentList = studentService.findAll();
+        return studentFactory.toStudentRequestDTOList(studentList);
     }
 }

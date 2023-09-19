@@ -1,6 +1,7 @@
 package com.example.thesis.service.impl;
 
 import com.example.thesis.entity.User;
+import com.example.thesis.exception.ValidationException;
 import com.example.thesis.repository.UserRepository;
 import com.example.thesis.service.RoleService;
 import com.example.thesis.service.UserService;
@@ -31,7 +32,7 @@ public class UserServiceImpl extends CRUDServiceImpl<User,Long> implements UserS
     @Transactional
     public User save (User entity) {
         if (findByEmailOpt(entity.getEmail()).isPresent() ) {
-            throw new RuntimeException("Email already in use");
+            throw new ValidationException("Email already in use");
         }
         entity.setPassword(bCryptPasswordEncoder.encode(entity.getPassword()));
         return super.save(entity);

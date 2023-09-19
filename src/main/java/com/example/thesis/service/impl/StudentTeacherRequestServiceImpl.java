@@ -9,6 +9,9 @@ import com.example.thesis.service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -30,11 +33,21 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         var student = studentService.findById(studentId);
         var teacher = teacherService.findById(teacherId);
 
+        if (Objects.nonNull(findByTeacherAndStudentId(teacherId, studentId))) {
+            throw new RuntimeException("Request exits");
+        }
+
         var request = new TeacherStudentRequest();
         request.setStudent(student);
         request.setTeacher(teacher);
         request.setTheme(dto.getTheme());
 
         return save(request);
+    }
+
+    @Override
+    @Transactional
+    public TeacherStudentRequest findByTeacherAndStudentId (Long teacherId, Long studentId) {
+        return repository.findByTeacherIdAndStudentId(teacherId,studentId).orElseThrow( () -> new RuntimeException("Reqeust doenst' exist") );
     }
 }

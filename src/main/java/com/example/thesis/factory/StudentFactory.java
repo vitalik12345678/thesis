@@ -1,9 +1,6 @@
 package com.example.thesis.factory;
 
-import com.example.thesis.dto.CurrentStudentDTO;
-import com.example.thesis.dto.DocumentDTO;
-import com.example.thesis.dto.StudentFileInfoDTO;
-import com.example.thesis.dto.StudentRegistrationDTO;
+import com.example.thesis.dto.*;
 import com.example.thesis.entity.Student;
 import com.example.thesis.mapper.EntityMapper;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +24,9 @@ public class StudentFactory {
 
     public CurrentStudentDTO toCurrentStudentDTO (Student student) {
         return entityMapper.toCurrentStudentDTO(student);
+    }
+
+    public List<StudentRequestDTO> toStudentRequestDTOList (List<Student> studentList) {
+        return entityMapper.toStudentRequestDTOList(studentList);
     }
 }

@@ -7,6 +7,7 @@ import com.example.thesis.service.CRUDService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 public abstract class CRUDServiceImpl<ENTITY extends EntityWithId<ID>, ID> implements CRUDService<ENTITY,ID> {
@@ -40,5 +41,10 @@ public abstract class CRUDServiceImpl<ENTITY extends EntityWithId<ID>, ID> imple
         if (Objects.isNull(entity)) throw new NullObjectException();
         ENTITY oldEntity = findById(entity.getId());
         return getRepository().save(entity);
+    }
+
+    @Override
+    public List<ENTITY> findAll () {
+        return getRepository().findAll();
     }
 }

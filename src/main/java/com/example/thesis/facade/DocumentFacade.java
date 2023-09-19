@@ -2,18 +2,18 @@ package com.example.thesis.facade;
 
 import com.example.thesis.dto.DocumentDTO;
 import com.example.thesis.dto.FileDTO;
-import com.example.thesis.entity.Document;
 import com.example.thesis.factory.DocumentFactory;
 import com.example.thesis.service.DocumentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class DocumentFacade {
 
@@ -26,6 +26,7 @@ public class DocumentFacade {
         return documentFactory.toDocumentDTO(document);
     }
 
+    @Transactional(readOnly = true)
     public FileDTO getFileByContentId (Long documentId) {
         var document = documentService.findById(documentId);
         var resource = documentService.getFileByContentId(document);
@@ -35,14 +36,17 @@ public class DocumentFacade {
         return fileDTO;
     }
 
+    @Transactional
     public DocumentDTO updateApprovedStatus (Long documentId, Boolean isApproved) {
         return documentFactory.toDocumentDTO(documentService.updateApprovedStatus(documentId,isApproved));
     }
 
+    @Transactional(readOnly = true)
     public DocumentDTO moveToNextStage (Long documentId, Long stageId) {
         return documentFactory.toDocumentDTO(documentService.changeStage(documentId,stageId));
     }
 
+    @Transactional(readOnly = true)
     public List<DocumentDTO> findDocumentListByStudentId (Long studentId) {
         return documentFactory.toDocumentDTOList(documentService.findAllByStudentId(studentId));
     }
