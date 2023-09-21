@@ -1,8 +1,11 @@
 package com.example.thesis.entity;
 
+import com.example.thesis.entity.enums.Language;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -19,8 +22,15 @@ public class TeacherStudentRequest implements EntityWithId<Long> {
     @Column(name = "approved")
     private Boolean approved;
 
+    @Column(name = "language")
+    @Enumerated(EnumType.STRING)
+    private Language language;
+
     @Column(name = "theme")
     private String theme;
+
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
 
     @ManyToOne
     @JoinColumn(name = "student_id")

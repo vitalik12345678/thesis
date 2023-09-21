@@ -1,6 +1,7 @@
 package com.example.thesis.facade;
 
 import com.example.thesis.dto.*;
+import com.example.thesis.entity.Student;
 import com.example.thesis.entity.User;
 import com.example.thesis.factory.StudentFactory;
 import com.example.thesis.service.StudentService;
@@ -46,5 +47,16 @@ public class StudentFacade {
     public List<StudentRequestDTO> findAll () {
         var studentList = studentService.findAll();
         return studentFactory.toStudentRequestDTOList(studentList);
+    }
+
+    @Transactional(readOnly = true)
+    public List<StudentRequestFromTeacherDTO> findStudentRequestByStudent (Student student) {
+        return requestFacade.findStudentRequestList(student);
+    }
+
+    @Transactional(readOnly = true)
+    public CurrentAdviserDTO findCurrentAdviser (Student student) {
+        var existStudent = studentService.findById(student.getStudentId());
+        return studentFactory.toCurrentAdviserDTO(student);
     }
 }

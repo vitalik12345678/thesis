@@ -35,4 +35,18 @@ public class TeacherController {
                 studentId,createDTO), HttpStatus.CREATED);
     }
 
+    @GetMapping(value = "/request")
+    @PreAuthorize("hasAuthority('teacher')")
+    public ResponseEntity<?> getTeacherRequestListByJwtToken(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(teacherFacade.getTeacherRequestList(securityFacade.getTeacherByUserId(userPrincipal.getUser()
+                .getUserId())));
+    }
+
+    @GetMapping(value = "/current-student")
+    @PreAuthorize("hasAuthority('teacher')")
+    public ResponseEntity<?> getCurrentStudentList(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(teacherFacade.findCurrentStudentList(securityFacade.getTeacherByUserId(userPrincipal.getUser()
+                .getUserId())));
+    }
+
 }

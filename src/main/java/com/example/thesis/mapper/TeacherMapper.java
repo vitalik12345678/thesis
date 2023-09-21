@@ -1,11 +1,9 @@
 package com.example.thesis.mapper;
 
-import com.example.thesis.dto.CurrentTeacherDTO;
-import com.example.thesis.dto.StudentRequestDTO;
-import com.example.thesis.dto.TeacherRegistrationDTO;
-import com.example.thesis.dto.TeacherRequestDTO;
+import com.example.thesis.dto.*;
 import com.example.thesis.entity.Student;
 import com.example.thesis.entity.Teacher;
+import com.example.thesis.entity.TeacherStudentRequest;
 import org.mapstruct.Mapping;
 
 import java.util.List;
@@ -23,4 +21,6 @@ public interface TeacherMapper {
     @Mapping(source = "user.firstName",target = "firstName")
     @Mapping(source = "user.lastName",target = "lastName")
     TeacherRequestDTO toTeacherRequestDTO(Teacher teacher);
+
+
 }

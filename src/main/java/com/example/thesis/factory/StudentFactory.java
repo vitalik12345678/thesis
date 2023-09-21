@@ -29,4 +29,8 @@ public class StudentFactory {
     public List<StudentRequestDTO> toStudentRequestDTOList (List<Student> studentList) {
         return entityMapper.toStudentRequestDTOList(studentList);
     }
+
+    public CurrentAdviserDTO toCurrentAdviserDTO (Student student) {
+        return entityMapper.toCurrentAdviserDTO(student);
+    }
 }
