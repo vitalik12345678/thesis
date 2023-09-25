@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TeacherRequestDTO {
+    private Long teacherId;
     private String firstName;
     private String lastName;
 }
