@@ -7,12 +7,16 @@ import com.example.thesis.entity.TeacherStudentRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StudentTeacherRequestService extends CRUDService<TeacherStudentRequest,Long>{
     TeacherStudentRequest add (Long studentId, Long teacherId, TeacherStudentRequestCreateDTO createDTO);
 
     @Transactional
     TeacherStudentRequest findByTeacherAndStudentId (Long teacherId, Long studentId);
+
+    @Transactional(readOnly = true)
+    Optional<TeacherStudentRequest> findByTeacherAndStudentIdOpt (Long teacherId, Long studentId);
 
     List<TeacherStudentRequest> findByTeacher (Teacher teacher);
 

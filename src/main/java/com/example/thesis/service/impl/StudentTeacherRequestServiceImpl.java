@@ -4,7 +4,6 @@ import com.example.thesis.dto.TeacherStudentRequestCreateDTO;
 import com.example.thesis.entity.Student;
 import com.example.thesis.entity.Teacher;
 import com.example.thesis.entity.TeacherStudentRequest;
-import com.example.thesis.entity.Theme;
 import com.example.thesis.repository.StudentTeacherRequestRepository;
 import com.example.thesis.service.StudentService;
 import com.example.thesis.service.StudentTeacherRequestService;
@@ -18,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +41,7 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         var student = studentService.findById(studentId);
         var teacher = teacherService.findById(teacherId);
 
-        if (Objects.nonNull(findByTeacherAndStudentId(teacherId, studentId))) {
+        if (findByTeacherAndStudentIdOpt(teacherId, studentId).isPresent()) {
             throw new RuntimeException("Request exits");
         }
 
@@ -57,9 +57,15 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public TeacherStudentRequest findByTeacherAndStudentId (Long teacherId, Long studentId) {
         return repository.findByTeacherIdAndStudentId(teacherId,studentId).orElseThrow( () -> new RuntimeException("Reqeust doenst' exist") );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<TeacherStudentRequest> findByTeacherAndStudentIdOpt (Long teacherId, Long studentId) {
+        return repository.findByTeacherIdAndStudentId(teacherId,studentId);
     }
 
     @Override
