@@ -20,7 +20,7 @@ public class StageController {
     }
 
     @DeleteMapping(value = "/{id}")
-    @PreAuthorize("hasAnyAuthority('teacherf')")
+    @PreAuthorize("hasAnyAuthority('teacher')")
     public ResponseEntity<?> deleteStage(@PathVariable Long id) {
         return ResponseEntity.ok(stageFacade.delete(id));
     }
