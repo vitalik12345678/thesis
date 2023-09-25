@@ -22,8 +22,8 @@ public interface StudentMapper {
     @Mapping(source = "user.lastName",target = "lastName")
     StudentRequestDTO toStudentRequestDTO(Student student);
 
-    @Mapping(source = "adviser.user.firstName",target = "firstName")
-    @Mapping(source = "adviser.user.lastName",target = "lastName")
-    @Mapping(source = "adviser.teacherId",target = "teacherId")
+    @Mapping(source = "adviser",target = "teacherRequestDTO")
+    @Mapping(source = "theme.theme",target = "theme")
+    @Mapping(source = "theme.language",target = "language")
     CurrentAdviserDTO toCurrentAdviserDTO (Student student);
 }

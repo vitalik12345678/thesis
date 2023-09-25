@@ -73,9 +73,8 @@ public class DocumentServiceImpl extends CRUDServiceImpl<Document, Long> impleme
     @Override
     @Transactional
     public Document changeStage (Long documentId, Long stageId) {
-        Stage stage = stageService.findById(stageId);
         Document document = findById(documentId);
-        document.setStage(stage);
+        stageService.changeStageByDocument(document,stageId);
         return save(document);
     }
 
@@ -83,5 +82,11 @@ public class DocumentServiceImpl extends CRUDServiceImpl<Document, Long> impleme
     @Transactional(readOnly = true)
     public List<Document> findAllByStudentId (Long studentId) {
         return documentRepository.findAllByStudentId(studentId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Document> findAllByStage (Stage stage) {
+        return documentRepository.findAllByStage(stage);
     }
 }

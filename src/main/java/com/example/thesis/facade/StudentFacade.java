@@ -57,6 +57,6 @@ public class StudentFacade {
     @Transactional(readOnly = true)
     public CurrentAdviserDTO findCurrentAdviser (Student student) {
         var existStudent = studentService.findById(student.getStudentId());
-        return studentFactory.toCurrentAdviserDTO(student);
+        return studentFactory.toCurrentAdviserDTO(existStudent);
     }
 }

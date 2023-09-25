@@ -1,6 +1,7 @@
 package com.example.thesis.exception.handler;
 
 import com.example.thesis.exception.NotExistObjectException;
+import com.example.thesis.exception.UnAvailableDeleteException;
 import org.springframework.http.*;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,6 +19,11 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler( value = {NotExistObjectException.class})
     public ResponseEntity<?> handleNotExistObjectException(NotExistObjectException e) {
         return buildException(Collections.singletonList(e.getMessage()),HttpStatus.BAD_REQUEST);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler( value = {UnAvailableDeleteException.class})
+    public ResponseEntity<?> handleNotExistObjectException(UnAvailableDeleteException e) {
+        return buildException(Collections.singletonList(e.getMessage()),HttpStatus.CONFLICT);
     }
 
     private ResponseEntity<Object> buildException(List<String> message, HttpStatus httpStatus){

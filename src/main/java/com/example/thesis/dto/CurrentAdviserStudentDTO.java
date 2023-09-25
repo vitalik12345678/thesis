@@ -9,13 +9,8 @@ import lombok.Setter;
 @Setter
 public class CurrentAdviserStudentDTO {
 
-    private Degree degree;
     private Language language;
-    private String firstName;
-    private String lastName;
-    private String faculty;
-    private String cluster;
-    private String graduateDate;
     private String theme;
+    private StudentRequestDTO studentRequestDTO;
 
 }

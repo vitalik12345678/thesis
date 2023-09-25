@@ -1,6 +1,7 @@
 package com.example.thesis.service;
 
 import com.example.thesis.entity.Document;
+import com.example.thesis.entity.Stage;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,4 +22,6 @@ public interface DocumentService extends CRUDService<Document,Long> {
     Document changeStage (Long documentId, Long stageId);
 
     List<Document> findAllByStudentId (Long studentId);
+
+    List<Document> findAllByStage (Stage stage);
 }
