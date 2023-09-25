@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Setter
 public class StudentRequestDTO {
 
-    private String studentId;
+    private Long studentId;
     private String firstName;
     private String lastName;
     private Degree degree;

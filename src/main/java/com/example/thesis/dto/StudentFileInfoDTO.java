@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 public class StudentFileInfoDTO {
 
-    private String documentId;
+    private Long documentId;
     private Boolean approved;
     private String originalName;
     private LocalDateTime createdDate;

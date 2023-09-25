@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 @Setter
 public class DocumentDTO {
 
-    private String documentId;
+    private Long documentId;
     private String contentId;
-    private String studentId;
+    private Long studentId;
     private String approved;
     private String originalName;
     private StageDTO stageDTO;

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class CurrentTeacherDTO {
 
-    private String teacherId;
+    private Long teacherId;
     private String generalBachelor;
     private String generalMaster;
 

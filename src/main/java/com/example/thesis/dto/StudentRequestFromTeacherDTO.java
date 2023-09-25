@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class StudentRequestFromTeacherDTO {
 
-    private String requestId;
+    private Long requestId;
     private String createdDate;
     private String theme;
     private Boolean approved;

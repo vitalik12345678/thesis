@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class CurrentStudentDTO {
 
-    private String studentId;
+    private Long studentId;
     private Degree degree;
 
 }
