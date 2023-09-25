@@ -19,4 +19,9 @@ public class StudentTeacherRequestController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{requestId}")
+    public ResponseEntity<?> deleteRequest(@PathVariable Long requestId) {
+        return ResponseEntity.ok(requestFacade.deleteById(requestId));
+    }
+
 }

@@ -10,6 +10,7 @@ import com.example.thesis.factory.StudentTeacherRequestFactory;
 import com.example.thesis.service.StudentTeacherRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class StudentTeacherRequestFacade {
         return requestFactory.toStudentRequestFromTeacherDTOList(requestService.findByStudent(student));
     }
 
+    @Transactional
     public void changeRequestStatus (Long requestId, Boolean approved) {
         var request = requestService.findById(requestId);
         request.setApproved(approved);
@@ -40,5 +42,11 @@ public class StudentTeacherRequestFacade {
         } else {
             requestService.delete(requestId);
         }
+    }
+
+    @Transactional
+    public Boolean deleteById (Long requestId) {
+        requestService.delete(requestId);
+        return true;
     }
 }
