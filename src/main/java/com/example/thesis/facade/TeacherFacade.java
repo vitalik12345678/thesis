@@ -4,6 +4,7 @@ import com.example.thesis.dto.*;
 import com.example.thesis.entity.Teacher;
 import com.example.thesis.entity.TeacherStudentRequest;
 import com.example.thesis.entity.User;
+import com.example.thesis.entity.enums.ApproveDirection;
 import com.example.thesis.factory.TeacherFactory;
 import com.example.thesis.service.TeacherService;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,7 @@ public class TeacherFacade {
 
     @Transactional
     public StudentTeacherRequestProfileDTO createStudentTeacherRequest (Long teacherId, Long studentId, TeacherStudentRequestCreateDTO createDTO) {
+        createDTO.setApproveDirection(ApproveDirection.STUDENT);
         return requestFacade.createRequest(studentId, teacherId, createDTO);
     }
 
