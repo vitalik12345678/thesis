@@ -55,7 +55,7 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         request.setLanguage(dto.getLanguage());
         request.setApproved(false);
         request.setCreatedDate(LocalDateTime.now());
-
+        request.setDirection(dto.getApproveDirection());
         return save(request);
     }
 
