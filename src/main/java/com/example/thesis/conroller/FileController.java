@@ -3,8 +3,6 @@ package com.example.thesis.conroller;
 import com.example.thesis.dto.DocumentDTO;
 import com.example.thesis.facade.DocumentFacade;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 
@@ -22,6 +23,7 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
+    private final HandlerExceptionResolver handlerExceptionResolver;
     private final JwtUtil jwtUtil;
 
     @Override
@@ -34,24 +36,28 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         final String userEmail;
         final String jwt;
+        try {
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            log.debug("No JWT token found.");
-            return;
-        }
-        jwt = authHeader.substring(7);
-        userEmail = jwtUtil.getUsernameFromToken(jwt);
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            var userDetails = userDetailsService.loadUserByUsername(userEmail);
-
-            if (jwtUtil.validateToken(jwt, userDetails)) {
-                var authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-                log.debug("Validate JWT token.");
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                filterChain.doFilter(request, response);
+                log.debug("No JWT token found.");
+                return;
             }
+            jwt = authHeader.substring(7);
+            userEmail = jwtUtil.getUsernameFromToken(jwt);
+            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                var userDetails = userDetailsService.loadUserByUsername(userEmail);
+
+                if (jwtUtil.validateToken(jwt, userDetails)) {
+                    var authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                    log.debug("Validate JWT token.");
+                }
+            }
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            handlerExceptionResolver.resolveException(request,response,null,e);
         }
-        filterChain.doFilter(request, response);
     }
 }
