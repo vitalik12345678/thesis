@@ -2,6 +2,7 @@ package com.example.thesis.service.impl;
 
 import com.example.thesis.entity.Document;
 import com.example.thesis.entity.Stage;
+import com.example.thesis.exception.ExistException;
 import com.example.thesis.repository.DocumentContentStore;
 import com.example.thesis.repository.DocumentRepository;
 import com.example.thesis.service.DocumentService;
@@ -37,7 +38,7 @@ public class DocumentServiceImpl extends CRUDServiceImpl<Document, Long> impleme
     @Transactional
     public Document downloadFile (MultipartFile file, Long studentId) {
         if (findByStudentIdAndApprovedOpt(studentId,false).isPresent()) {
-            throw new RuntimeException("Student has unapproved file");
+            throw new ExistException("Student has unapproved file");
         }
         Document document = new Document();
         document.setStudent(studentService.findById(studentId));

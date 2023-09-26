@@ -1,6 +1,7 @@
 package com.example.thesis.service.impl;
 
 import com.example.thesis.entity.Student;
+import com.example.thesis.exception.NotExistObjectException;
 import com.example.thesis.repository.StudentRepository;
 import com.example.thesis.service.StudentService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,6 @@ public class StudentServiceImpl extends CRUDServiceImpl<Student,Long> implements
     @Override
     @Transactional(readOnly = true)
     public Student findByUserId (Long userId) {
-        return studentRepository.findByUserId(userId).orElseThrow( () -> new RuntimeException("Student with user id %s doesn't exist".formatted(userId)));
+        return studentRepository.findByUserId(userId).orElseThrow( () -> new NotExistObjectException("Student with user id %s doesn't exist".formatted(userId)));
     }
 }

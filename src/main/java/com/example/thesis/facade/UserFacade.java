@@ -3,6 +3,7 @@ package com.example.thesis.facade;
 import com.example.thesis.dto.CurrentUserDTO;
 import com.example.thesis.dto.StudentRegistrationDTO;
 import com.example.thesis.dto.TeacherRegistrationDTO;
+import com.example.thesis.exception.NullObjectException;
 import com.example.thesis.factory.UserFactory;
 import com.example.thesis.security.UserPrincipal;
 import com.example.thesis.service.UserService;
@@ -41,7 +42,7 @@ public class UserFacade {
         var userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         var user = userPrincipal.getUser();
         if (Objects.isNull(user)) {
-            throw new RuntimeException("User is null");
+            throw new NullObjectException("User is null");
         }
         var currentUserDTO = userFactory.toCurrentUserDTO(user);
 

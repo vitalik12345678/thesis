@@ -4,6 +4,9 @@ import com.example.thesis.dto.TeacherStudentRequestCreateDTO;
 import com.example.thesis.entity.Student;
 import com.example.thesis.entity.Teacher;
 import com.example.thesis.entity.TeacherStudentRequest;
+import com.example.thesis.exception.ExistException;
+import com.example.thesis.exception.ForbiddenActionException;
+import com.example.thesis.exception.NotExistObjectException;
 import com.example.thesis.repository.StudentTeacherRequestRepository;
 import com.example.thesis.service.StudentService;
 import com.example.thesis.service.StudentTeacherRequestService;
@@ -42,7 +45,7 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         var teacher = teacherService.findById(teacherId);
 
         if (findByTeacherAndStudentIdOpt(teacherId, studentId).isPresent()) {
-            throw new RuntimeException("Request exits");
+            throw new ExistException("Request exits");
         }
 
         var request = new TeacherStudentRequest();
@@ -59,7 +62,7 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
     @Override
     @Transactional(readOnly = true)
     public TeacherStudentRequest findByTeacherAndStudentId (Long teacherId, Long studentId) {
-        return repository.findByTeacherIdAndStudentId(teacherId,studentId).orElseThrow( () -> new RuntimeException("Reqeust doenst' exist") );
+        return repository.findByTeacherIdAndStudentId(teacherId,studentId).orElseThrow( () -> new NotExistObjectException("Request does not  exist") );
     }
 
     @Override
@@ -84,7 +87,7 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
     public TeacherStudentRequest approve (TeacherStudentRequest request) {
         var student = studentService.findById(request.getStudent().getStudentId());
         if (Objects.nonNull(student.getAdviser())) {
-            throw new RuntimeException("Student has adviser");
+            throw new ExistException("Student has adviser");
         }
         var teacher = teacherService.findById(request.getTeacher().getTeacherId());
         var studentList = findByTeacher(teacher).stream().filter(TeacherStudentRequest::getApproved)
@@ -95,18 +98,18 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         switch (student.getDegree()) {
             case MASTER -> {
                 if (Objects.isNull(teacher.getGeneralMaster())) {
-                    throw new RuntimeException("Teacher cannot have any masters' students");
+                    throw new ForbiddenActionException("Teacher cannot have any masters' students");
                 }
                 if (studentList.size() >= teacher.getGeneralMaster()) {
-                    throw new RuntimeException("Teacher overloaded by masters");
+                    throw new ForbiddenActionException("Teacher overloaded by masters");
                 }
             }
             case BACHELOR -> {
                 if (Objects.isNull(teacher.getGeneralBachelor())) {
-                    throw new RuntimeException("Teacher cannot have any bachelors' students");
+                    throw new ForbiddenActionException("Teacher cannot have any bachelors' students");
                 }
                 if (studentList.size() >= teacher.getGeneralBachelor()) {
-                    throw new RuntimeException("Teacher overloaded by bachelors");
+                    throw new ForbiddenActionException("Teacher overloaded by bachelors");
                 }
             }
         }
