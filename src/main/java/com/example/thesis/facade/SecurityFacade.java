@@ -2,9 +2,12 @@ package com.example.thesis.facade;
 
 import com.example.thesis.entity.Student;
 import com.example.thesis.entity.Teacher;
+import com.example.thesis.entity.User;
+import com.example.thesis.security.UserPrincipal;
 import com.example.thesis.service.StudentService;
 import com.example.thesis.service.TeacherService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +25,10 @@ public class SecurityFacade {
 
     public Teacher getTeacherByUserId(Long userId) {
         return teacherService.findByUserId(userId);
+    }
+
+    public User getCurrentUser(){
+        return ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
     }
 
 }

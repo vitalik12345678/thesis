@@ -90,6 +90,8 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         var studentList = findByTeacher(teacher).stream().filter(TeacherStudentRequest::getApproved)
                 .filter(item -> item.getStudent().getDegree().equals(student.getDegree())).toList();
 
+
+
         switch (student.getDegree()) {
             case MASTER -> {
                 if (Objects.isNull(teacher.getGeneralMaster())) {

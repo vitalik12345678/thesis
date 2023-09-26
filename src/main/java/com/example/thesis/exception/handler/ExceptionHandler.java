@@ -1,5 +1,6 @@
 package com.example.thesis.exception.handler;
 
+import com.example.thesis.exception.ForbiddenActionException;
 import com.example.thesis.exception.NotExistObjectException;
 import com.example.thesis.exception.UnAvailableDeleteException;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -26,6 +27,12 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handleExpiredJwtException(ExpiredJwtException e) {
         return buildException(Collections.singletonList(e.getMessage()),HttpStatus.UNAUTHORIZED);
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = ForbiddenActionException.class)
+    public ResponseEntity<?> handleForbiddenActionException(ForbiddenActionException e) {
+        return buildException(Collections.singletonList(e.getMessage()),HttpStatus.FORBIDDEN);
+    }
+
 
     @org.springframework.web.bind.annotation.ExceptionHandler( value = {UnAvailableDeleteException.class})
     public ResponseEntity<?> handleNotExistObjectException(UnAvailableDeleteException e) {
