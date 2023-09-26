@@ -1,5 +1,6 @@
 package com.example.thesis.entity;
 
+import com.example.thesis.entity.enums.ApproveDirection;
 import com.example.thesis.entity.enums.Language;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,6 +22,10 @@ public class TeacherStudentRequest implements EntityWithId<Long> {
 
     @Column(name = "approved")
     private Boolean approved;
+
+    @Column(name = "approve_direction")
+    @Enumerated(EnumType.STRING)
+    private ApproveDirection direction;
 
     @Column(name = "language")
     @Enumerated(EnumType.STRING)
