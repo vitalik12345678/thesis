@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl extends CRUDServiceImpl<Student,Long> implements StudentService {
@@ -24,5 +26,10 @@ public class StudentServiceImpl extends CRUDServiceImpl<Student,Long> implements
     @Transactional(readOnly = true)
     public Student findByUserId (Long userId) {
         return studentRepository.findByUserId(userId).orElseThrow( () -> new NotExistObjectException("Student with user id %s doesn't exist".formatted(userId)));
+    }
+
+    @Override
+    public Optional<Student> findByUserIdOpt (Long userId) {
+        return studentRepository.findByUserId(userId);
     }
 }

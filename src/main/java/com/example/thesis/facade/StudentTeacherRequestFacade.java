@@ -46,12 +46,11 @@ public class StudentTeacherRequestFacade {
 
         User user = securityFacade.getCurrentUser();
         if (approved) {
-
-            if (request.getDirection().equals(ApproveDirection.TEACHER) && Objects.nonNull(securityFacade.getStudentByUserId(user.getUserId()))) {
-                throw new ForbiddenActionException("You cannot approve that request");
+            if (request.getDirection().equals(ApproveDirection.TEACHER) && securityFacade.getStudentByUserIdOpt(user.getUserId()).isPresent()) {
+                throw new ForbiddenActionException("You as student cannot approve that request");
             }
-            else if (request.getDirection().equals(ApproveDirection.STUDENT) && Objects.nonNull(securityFacade.getTeacherByUserId(user.getUserId()))) {
-                throw new ForbiddenActionException("You cannot approve that request");
+            else if (request.getDirection().equals(ApproveDirection.STUDENT) && securityFacade.getTeacherByUserIdOpt(user.getUserId()).isPresent()) {
+                throw new ForbiddenActionException("You as teacher cannot approve that request");
             }
             requestService.approve(request);
         } else {
