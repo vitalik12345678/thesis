@@ -1,9 +1,6 @@
 package com.example.thesis.exception.handler;
 
-import com.example.thesis.exception.ExistException;
-import com.example.thesis.exception.ForbiddenActionException;
-import com.example.thesis.exception.NotExistObjectException;
-import com.example.thesis.exception.UnAvailableDeleteException;
+import com.example.thesis.exception.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.*;
 import org.springframework.validation.FieldError;
@@ -32,6 +29,11 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(value = ForbiddenActionException.class)
     public ResponseEntity<?> handleForbiddenActionException(ForbiddenActionException e) {
         return buildException(Collections.singletonList(e.getMessage()),HttpStatus.FORBIDDEN);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = ValidationException.class)
+    public ResponseEntity<?> handleValidationException(ValidationException e) {
+        return buildException(Collections.singletonList(e.getMessage()),HttpStatus.CONFLICT);
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(value = ExistException.class)

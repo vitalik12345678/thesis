@@ -4,6 +4,7 @@ import com.example.thesis.dto.TeacherStudentRequestCreateDTO;
 import com.example.thesis.entity.Student;
 import com.example.thesis.entity.Teacher;
 import com.example.thesis.entity.TeacherStudentRequest;
+import com.example.thesis.entity.enums.Degree;
 import com.example.thesis.exception.ExistException;
 import com.example.thesis.exception.ForbiddenActionException;
 import com.example.thesis.exception.NotExistObjectException;
@@ -44,8 +45,37 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         var student = studentService.findById(studentId);
         var teacher = teacherService.findById(teacherId);
 
+        if (Objects.nonNull(student.getAdviser())) {
+            throw new ForbiddenActionException("Student has adviser");
+        }
+
         if (findByTeacherAndStudentIdOpt(teacherId, studentId).isPresent()) {
             throw new ExistException("Request exits");
+        }
+
+        if (findByStudentAndTeacherAndStatusOpt(student,teacher,true).isPresent()) {
+            throw new ExistException("You have adviser");
+        }
+
+        var teacherStudentRequestList = findAllByTeacherAndApprove(teacher,true);
+
+        var bachelorStudentList = teacherStudentRequestList.stream().filter( item -> item.getStudent().getDegree().equals(Degree.BACHELOR)).toList();
+        var masterStudentList = teacherStudentRequestList.stream().filter( item -> item.getStudent().getDegree().equals(Degree.MASTER)).toList();
+
+        if (Objects.nonNull(teacher.getGeneralMaster())) {
+
+            if (teacher.getGeneralMaster() <= masterStudentList.size()) {
+                throw new ForbiddenActionException("You cannot send request,teacher limit is over");
+            }
+
+        }
+
+        if (Objects.nonNull(teacher.getGeneralBachelor())) {
+
+            if (teacher.getGeneralBachelor() <= bachelorStudentList.size()) {
+                throw new ForbiddenActionException("You cannot send request, you limit is over");
+            }
+
         }
 
         var request = new TeacherStudentRequest();
@@ -57,6 +87,14 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         request.setCreatedDate(LocalDateTime.now());
         request.setDirection(dto.getApproveDirection());
         return save(request);
+    }
+
+    private List<TeacherStudentRequest> findAllByTeacherAndApprove (Teacher teacher, boolean approve) {
+        return repository.findAllByTeacherIdAndApproved(teacher.getTeacherId(),approve);
+    }
+
+    private Optional<TeacherStudentRequest> findByStudentAndTeacherAndStatusOpt (Student student, Teacher teacher, boolean approve) {
+        return repository.findByStudentIdAndApprovedAndTeacherId(student.getStudentId(), approve,teacher.getTeacherId());
     }
 
     @Override

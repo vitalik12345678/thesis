@@ -8,7 +8,7 @@ import lombok.Setter;
 public class CurrentTeacherDTO {
 
     private Long teacherId;
-    private String generalBachelor;
-    private String generalMaster;
+    private Long generalBachelor;
+    private Long generalMaster;
 
 }

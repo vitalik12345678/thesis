@@ -12,8 +12,10 @@ import java.util.Optional;
 @Repository
 public interface StudentTeacherRequestRepository extends JpaRepository<TeacherStudentRequest,Long> {
     Optional<TeacherStudentRequest> findByTeacherIdAndStudentId (Long teacherId, Long studentId);
+    Optional<TeacherStudentRequest> findByStudentIdAndApprovedAndTeacherId (Long studentId,Boolean approved,Long teacherId);
 
     List<TeacherStudentRequest> findAllByTeacher (Teacher teacher);
 
     List<TeacherStudentRequest> findAllByStudent (Student student);
+    List<TeacherStudentRequest> findAllByTeacherIdAndApproved(Long teacherId,Boolean approve);
 }
