@@ -1,5 +1,6 @@
 package com.example.thesis.entity;
 
+import com.example.thesis.entity.enums.ApproveStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,6 +43,10 @@ public class Document implements EntityWithId<Long> {
     @ContentLength
     private String length;
 
+    @Column(name = "approve_status")
+    @Enumerated(EnumType.STRING)
+    private ApproveStatus status;
+
     @Column(name = "created_date")
     @CreatedDate
     private LocalDateTime createdDate;
@@ -49,7 +54,7 @@ public class Document implements EntityWithId<Long> {
     @Column(name = "approved_date")
     private LocalDateTime approvedDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "stage",referencedColumnName = "stage_id")
     private Stage stage;
 

@@ -2,6 +2,7 @@ package com.example.thesis.service.impl;
 
 import com.example.thesis.entity.Document;
 import com.example.thesis.entity.Stage;
+import com.example.thesis.entity.enums.ApproveStatus;
 import com.example.thesis.exception.ExistException;
 import com.example.thesis.repository.DocumentContentStore;
 import com.example.thesis.repository.DocumentRepository;
@@ -9,7 +10,6 @@ import com.example.thesis.service.DocumentService;
 import com.example.thesis.service.StageService;
 import com.example.thesis.service.StudentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -37,13 +37,14 @@ public class DocumentServiceImpl extends CRUDServiceImpl<Document, Long> impleme
     @Override
     @Transactional
     public Document downloadFile (MultipartFile file, Long studentId) {
-        if (findByStudentIdAndApprovedOpt(studentId,false).isPresent()) {
+        if (findByStudentIdAndApprovedOpt(studentId,false,ApproveStatus.WAITING).isPresent()) {
             throw new ExistException("Student has unapproved file");
         }
         Document document = new Document();
         document.setStudent(studentService.findById(studentId));
         document.setOriginalName(file.getOriginalFilename());
         document.setApproved(false);
+        document.setStatus(ApproveStatus.WAITING);
         document.setCreatedDate(LocalDateTime.now());
         this.save(document);
         documentContentStore.setContent(document,file.getResource());
@@ -58,16 +59,17 @@ public class DocumentServiceImpl extends CRUDServiceImpl<Document, Long> impleme
 
     @Override
     @Transactional
-    public Optional<Document> findByStudentIdAndApprovedOpt (Long studentId, Boolean isApproved) {
-        return documentRepository.findByStudentIdAndApproved(studentId,isApproved);
+    public Optional<Document> findByStudentIdAndApprovedOpt (Long studentId, Boolean isApproved,ApproveStatus status) {
+        return documentRepository.findByStudentIdAndApprovedAndStatus(studentId,isApproved,status);
     }
 
     @Override
     @Transactional
-    public Document updateApprovedStatus (Long documentId, Boolean isApproved) {
+    public Document updateApprovedStatus (Long documentId, Boolean isApproved, ApproveStatus status) {
         Document document = findById(documentId);
         document.setApproved(isApproved);
         document.setApprovedDate(LocalDateTime.now());
+        document.setStatus(status);
         return save(document);
     }
 

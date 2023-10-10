@@ -44,7 +44,7 @@ public class Student implements EntityWithId<Long> {
     @JoinColumn(name = "scientific_adviser",referencedColumnName = "teacher_id")
     private Teacher adviser;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student",fetch = FetchType.EAGER)
     private List<Document> documentList;
 
     @OneToMany(mappedBy = "student")

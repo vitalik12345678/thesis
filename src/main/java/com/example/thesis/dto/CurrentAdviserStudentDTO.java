@@ -12,5 +12,6 @@ public class CurrentAdviserStudentDTO {
     private Language language;
     private String theme;
     private StudentRequestDTO studentRequestDTO;
+    private StageDTO stageDTO;
 
 }

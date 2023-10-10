@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -59,6 +60,12 @@ public class StudentFacade {
     @Transactional(readOnly = true)
     public CurrentAdviserDTO findCurrentAdviser (Student student) {
         var existStudent = studentService.findById(student.getStudentId());
-        return studentFactory.toCurrentAdviserDTO(existStudent);
+        var adviserDTO =  studentFactory.toCurrentAdviserDTO(existStudent);
+        var lastDocument = existStudent.getDocumentList().stream().filter( x -> Objects.isNull(x.getApprovedDate())).findFirst();
+        lastDocument.ifPresent(document ->{
+            var stageDTO = documentFacade.findStageDTOByDocumentId(lastDocument.get().getDocumentId()) ;
+            adviserDTO.setStageDTO(stageDTO);
+        });
+        return adviserDTO;
     }
 }

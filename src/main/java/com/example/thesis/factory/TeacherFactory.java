@@ -1,9 +1,7 @@
 package com.example.thesis.factory;
 
-import com.example.thesis.dto.CurrentAdviserStudentDTO;
-import com.example.thesis.dto.CurrentTeacherDTO;
-import com.example.thesis.dto.TeacherRegistrationDTO;
-import com.example.thesis.dto.TeacherRequestDTO;
+import com.example.thesis.dto.*;
+import com.example.thesis.entity.Stage;
 import com.example.thesis.entity.Teacher;
 import com.example.thesis.entity.TeacherStudentRequest;
 import com.example.thesis.mapper.EntityMapper;
@@ -36,5 +34,9 @@ public class TeacherFactory {
 
     public CurrentAdviserStudentDTO toCurrentAdviserStudentDTO (TeacherStudentRequest student) {
         return entityMapper.toCurrentAdviserStudentDTO(student);
+    }
+
+    public StageDTO toStageDTO (Stage stage) {
+        return entityMapper.toStageDTO(stage);
     }
 }

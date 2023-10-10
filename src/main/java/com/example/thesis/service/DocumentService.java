@@ -2,6 +2,7 @@ package com.example.thesis.service;
 
 import com.example.thesis.entity.Document;
 import com.example.thesis.entity.Stage;
+import com.example.thesis.entity.enums.ApproveStatus;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,10 +15,9 @@ public interface DocumentService extends CRUDService<Document,Long> {
 
     Resource getFileByContentId (Document document);
 
-    @Transactional
-    Optional<Document> findByStudentIdAndApprovedOpt (Long studentId, Boolean isApproved);
+    Optional<Document> findByStudentIdAndApprovedOpt (Long studentId, Boolean isApproved,ApproveStatus status);
 
-    Document updateApprovedStatus (Long documentId, Boolean isApproved);
+    Document updateApprovedStatus (Long documentId, Boolean isApproved, ApproveStatus rejected);
 
     Document changeStage (Long documentId, Long stageId);
 

@@ -1,7 +1,9 @@
 package com.example.thesis.factory;
 
 import com.example.thesis.dto.DocumentDTO;
+import com.example.thesis.dto.StageDTO;
 import com.example.thesis.entity.Document;
+import com.example.thesis.entity.Stage;
 import com.example.thesis.mapper.EntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,5 +22,9 @@ public class DocumentFactory {
 
     public List<DocumentDTO> toDocumentDTOList (List<Document> allByStudentId) {
         return entityMapper.toDocumentDTOList(allByStudentId);
+    }
+
+    public StageDTO toStageDTO (Stage stage) {
+        return entityMapper.toStageDTO(stage);
     }
 }

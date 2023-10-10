@@ -14,5 +14,6 @@ public class StudentFileInfoDTO {
     private String originalName;
     private LocalDateTime createdDate;
     private LocalDateTime approvedDate;
+    private StageDTO stageDTO;
 
 }

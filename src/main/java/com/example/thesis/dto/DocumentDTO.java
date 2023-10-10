@@ -17,5 +17,4 @@ public class DocumentDTO {
     private StageDTO stageDTO;
     private LocalDateTime approvedDate;
     private LocalDateTime createdDate;
-
 }

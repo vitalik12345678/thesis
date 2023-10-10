@@ -1,6 +1,7 @@
 package com.example.thesis.factory;
 
 import com.example.thesis.dto.*;
+import com.example.thesis.entity.Document;
 import com.example.thesis.entity.Student;
 import com.example.thesis.mapper.EntityMapper;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +33,9 @@ public class StudentFactory {
 
     public CurrentAdviserDTO toCurrentAdviserDTO (Student student) {
         return entityMapper.toCurrentAdviserDTO(student);
+    }
+
+    public StageDTO toStageDTO (Document document) {
+        return entityMapper.toStageDTO(document.getStage());
     }
 }

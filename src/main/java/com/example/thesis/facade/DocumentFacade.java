@@ -2,6 +2,8 @@ package com.example.thesis.facade;
 
 import com.example.thesis.dto.DocumentDTO;
 import com.example.thesis.dto.FileDTO;
+import com.example.thesis.dto.StageDTO;
+import com.example.thesis.entity.enums.ApproveStatus;
 import com.example.thesis.factory.DocumentFactory;
 import com.example.thesis.service.DocumentService;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +40,11 @@ public class DocumentFacade {
 
     @Transactional
     public DocumentDTO updateApprovedStatus (Long documentId, Boolean isApproved) {
-        return documentFactory.toDocumentDTO(documentService.updateApprovedStatus(documentId,isApproved));
+        if (isApproved) {
+            return documentFactory.toDocumentDTO(documentService.updateApprovedStatus(documentId,isApproved, ApproveStatus.APPROVED));
+        } else {
+            return documentFactory.toDocumentDTO( documentService.updateApprovedStatus(documentId, isApproved,ApproveStatus.REJECTED));
+        }
     }
 
     @Transactional(readOnly = true)
@@ -49,5 +55,9 @@ public class DocumentFacade {
     @Transactional(readOnly = true)
     public List<DocumentDTO> findDocumentListByStudentId (Long studentId) {
         return documentFactory.toDocumentDTOList(documentService.findAllByStudentId(studentId));
+    }
+
+    public StageDTO findStageDTOByDocumentId (Long documentId) {
+        return documentFactory.toStageDTO(documentService.findById(documentId).getStage());
     }
 }

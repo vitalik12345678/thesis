@@ -1,9 +1,7 @@
 package com.example.thesis.facade;
 
 import com.example.thesis.dto.*;
-import com.example.thesis.entity.Teacher;
-import com.example.thesis.entity.TeacherStudentRequest;
-import com.example.thesis.entity.User;
+import com.example.thesis.entity.*;
 import com.example.thesis.entity.enums.ApproveDirection;
 import com.example.thesis.factory.TeacherFactory;
 import com.example.thesis.service.TeacherService;
@@ -12,6 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -55,6 +57,17 @@ public class TeacherFacade {
                 .filter(TeacherStudentRequest::getApproved)
                 .toList();
         var currentStudentDTOList = teacherFactory.toCurrentAdviserStudentDTOList(studentList);
+        Map<Long, Optional<Document>> studentStageDTOMap = studentList.stream().collect(Collectors.toMap(
+                key -> key.getStudent().getStudentId(),
+                value -> value.getStudent().getDocumentList().
+                            stream().filter(x -> Objects.isNull( x.getApprovedDate()))
+                            .findFirst()
+
+                ));
+        currentStudentDTOList.forEach( currentAdviserStudentDTO -> {
+            var document = studentStageDTOMap.get(currentAdviserStudentDTO.getStudentRequestDTO().getStudentId());
+            document.ifPresent( existDocument -> currentAdviserStudentDTO.setStageDTO(teacherFactory.toStageDTO(existDocument.getStage())));
+        });
         return currentStudentDTOList;
     }
 }
