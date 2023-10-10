@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequestMapping("api/file/")
@@ -37,9 +39,9 @@ public class FileController {
         var fileDTO = documentFacade.getFileByContentId(documentId);
 
         var header = new HttpHeaders();
-        header.set("fullName", fileDTO.getFullName());
         if (fileDTO.getFullName().endsWith(".pdf")) header.setContentType(MediaType.APPLICATION_PDF);
-        header.setContentDisposition(ContentDisposition.inline().filename(fileDTO.getFullName()).build());
+        else header.setContentType(MediaType.MULTIPART_MIXED);
+        header.setContentDisposition(ContentDisposition.inline().filename(URLEncoder.encode(fileDTO.getFullName(), StandardCharsets.UTF_8)).build());
 
         try {
             return new ResponseEntity<>(fileDTO.getResource().getContentAsByteArray(), header, HttpStatus.OK);
@@ -49,7 +51,7 @@ public class FileController {
     }
 
     @PutMapping("/{documentId}")
-    @PreAuthorize("hasAuthority('student')")
+    @PreAuthorize("hasAuthority('teacher')")
     public ResponseEntity<?> updateApprovedStatus(@PathVariable Long documentId,
                                                   @RequestParam Boolean isApproved) {
         return ResponseEntity.ok(documentFacade.updateApprovedStatus(documentId,isApproved));
