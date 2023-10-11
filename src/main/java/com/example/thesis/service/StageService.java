@@ -11,4 +11,7 @@ public interface StageService extends CRUDService<Stage,Long> {
     boolean isNotExistAnyDocumentByStageId (Long stageId);
 
     Stage changeStageByDocument (Document document, Long stageId);
+
+    Stage findFirstOrderStage ();
+
 }

@@ -14,4 +14,8 @@ import java.util.Optional;
 public interface StageRepository extends JpaRepository<Stage,Long> {
     @Query(value = " SELECT EXISTS( SELECT 1 FROM document where document.stage = ?1)",nativeQuery = true)
     Boolean existStageInDocument(Long stageId);
+
+    @Query(value = "SELECT min(stage.serial_order) FROM stage ",nativeQuery = true)
+    Stage findMinOrder ();
+
 }

@@ -50,4 +50,10 @@ public class StageServiceImpl extends CRUDServiceImpl<Stage,Long> implements Sta
         document.setStage(stage);
         return stage;
     }
+
+    @Override
+    @Transactional
+    public Stage findFirstOrderStage () {
+        return stageRepository.findMinOrder();
+    }
 }

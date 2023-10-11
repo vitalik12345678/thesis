@@ -47,7 +47,7 @@ public class DocumentFacade {
         }
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public DocumentDTO moveToNextStage (Long documentId, Long stageId) {
         return documentFactory.toDocumentDTO(documentService.changeStage(documentId,stageId));
     }

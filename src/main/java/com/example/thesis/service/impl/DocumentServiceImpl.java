@@ -46,6 +46,9 @@ public class DocumentServiceImpl extends CRUDServiceImpl<Document, Long> impleme
         document.setApproved(false);
         document.setStatus(ApproveStatus.WAITING);
         document.setCreatedDate(LocalDateTime.now());
+        if (findAllByStudentId(studentId).isEmpty()) {
+            document.setStage(stageService.findFirstOrderStage());
+        }
         this.save(document);
         documentContentStore.setContent(document,file.getResource());
         return document;
