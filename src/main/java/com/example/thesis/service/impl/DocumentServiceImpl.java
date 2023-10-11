@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +47,12 @@ public class DocumentServiceImpl extends CRUDServiceImpl<Document, Long> impleme
         document.setApproved(false);
         document.setStatus(ApproveStatus.WAITING);
         document.setCreatedDate(LocalDateTime.now());
-        if (findAllByStudentId(studentId).isEmpty()) {
+        var documentList = findAllByStudentId(studentId);
+        if (documentList.isEmpty()) {
             document.setStage(stageService.findFirstOrderStage());
+        } else {
+            var stage = documentList.stream().map(Document::getStage).max( Comparator.comparing( Stage::getSerialOrder));
+            stage.ifPresent(document::setStage);
         }
         this.save(document);
         documentContentStore.setContent(document,file.getResource());
