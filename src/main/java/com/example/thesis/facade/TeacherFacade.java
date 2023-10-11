@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -60,8 +57,7 @@ public class TeacherFacade {
         Map<Long, Optional<Document>> studentStageDTOMap = studentList.stream().collect(Collectors.toMap(
                 key -> key.getStudent().getStudentId(),
                 value -> value.getStudent().getDocumentList().
-                            stream().filter(x -> Objects.isNull( x.getApprovedDate()))
-                            .findFirst()
+                            stream().max(Comparator.comparing(Document::getCreatedDate))
 
                 ));
         currentStudentDTOList.forEach( currentAdviserStudentDTO -> {

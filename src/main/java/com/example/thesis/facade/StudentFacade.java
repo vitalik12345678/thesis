@@ -1,6 +1,7 @@
 package com.example.thesis.facade;
 
 import com.example.thesis.dto.*;
+import com.example.thesis.entity.Document;
 import com.example.thesis.entity.Student;
 import com.example.thesis.entity.User;
 import com.example.thesis.entity.enums.ApproveDirection;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,7 +63,8 @@ public class StudentFacade {
     public CurrentAdviserDTO findCurrentAdviser (Student student) {
         var existStudent = studentService.findById(student.getStudentId());
         var adviserDTO =  studentFactory.toCurrentAdviserDTO(existStudent);
-        var lastDocument = existStudent.getDocumentList().stream().filter( x -> Objects.isNull(x.getApprovedDate())).findFirst();
+        var lastDocument = existStudent.getDocumentList().stream()
+                .max(Comparator.comparing(Document::getCreatedDate));
         lastDocument.ifPresent(document ->{
             var stageDTO = documentFacade.findStageDTOByDocumentId(lastDocument.get().getDocumentId()) ;
             adviserDTO.setStageDTO(stageDTO);
