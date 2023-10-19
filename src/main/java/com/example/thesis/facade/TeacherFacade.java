@@ -23,6 +23,8 @@ public class TeacherFacade {
     public void create(TeacherRegistrationDTO teacherRegistrationDTO, User user) {
         var teacher = teacherFactory.fromTeacherRegistrationDTO(teacherRegistrationDTO);
         teacher.setUser(user);
+        teacher.setGeneralBachelor(10L);
+        teacher.setGeneralMaster(10L);
         teacherService.save(teacher);
     }
 
