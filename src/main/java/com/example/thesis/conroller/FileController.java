@@ -25,7 +25,7 @@ public class FileController {
 
 
     @PostMapping("/student/{studentId}")
-    @PreAuthorize("hasAuthority('student')")
+    @PreAuthorize("hasAnyAuthority('student','PS','HoD')")
     public ResponseEntity<DocumentDTO> downloadStudentFile(@PathVariable Long studentId,
                                                             @RequestParam MultipartFile document) {
 
@@ -51,14 +51,14 @@ public class FileController {
     }
 
     @PutMapping("/{documentId}")
-    @PreAuthorize("hasAuthority('teacher')")
+    @PreAuthorize("hasAnyAuthority('teacher','PS','HoD')")
     public ResponseEntity<?> updateApprovedStatus(@PathVariable Long documentId,
                                                   @RequestParam Boolean isApproved) {
         return ResponseEntity.ok(documentFacade.updateApprovedStatus(documentId,isApproved));
     }
 
     @PutMapping(value = "{documentId}/move-to-next-stage/{stageId}")
-    @PreAuthorize("hasAuthority('teacher')")
+    @PreAuthorize("hasAnyAuthority('teacher','PS','HoD')")
     public ResponseEntity<?> moveToNextStage(@PathVariable Long documentId,
                                              @PathVariable Long stageId) {
         return ResponseEntity.ok(documentFacade.moveToNextStage(documentId,stageId));

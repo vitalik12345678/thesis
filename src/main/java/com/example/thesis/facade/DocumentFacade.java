@@ -4,6 +4,7 @@ import com.example.thesis.dto.DocumentDTO;
 import com.example.thesis.dto.FileDTO;
 import com.example.thesis.dto.StageDTO;
 import com.example.thesis.entity.enums.ApproveStatus;
+import com.example.thesis.exception.ForbiddenActionException;
 import com.example.thesis.factory.DocumentFactory;
 import com.example.thesis.service.DocumentService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,8 @@ public class DocumentFacade {
 
     private final DocumentFactory documentFactory;
     private final DocumentService documentService;
+    private final TeacherApproveFacade teacherApproveFacade;
+    private final SecurityFacade securityFacade;
 
     @Transactional
     public DocumentDTO downloadFile(MultipartFile file, Long studentId) {
@@ -49,6 +52,11 @@ public class DocumentFacade {
 
     @Transactional
     public DocumentDTO moveToNextStage (Long documentId, Long stageId) {
+        var document = documentService.findById(documentId);
+        var availableApprove = teacherApproveFacade.findApproveStageIdSetByTeacherId(securityFacade.getTeacherByUserId(securityFacade.getCurrentUser().getUserId()).getTeacherId());
+        if (!availableApprove.contains(document.getStage().getStageId())) {
+            throw new ForbiddenActionException("You cannot approve that document");
+        }
         return documentFactory.toDocumentDTO(documentService.changeStage(documentId,stageId));
     }
 
