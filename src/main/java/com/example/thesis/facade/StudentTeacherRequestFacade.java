@@ -13,6 +13,7 @@ import com.example.thesis.factory.StudentTeacherRequestFactory;
 import com.example.thesis.service.StudentTeacherRequestService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class StudentTeacherRequestFacade {
     private final StudentTeacherRequestFactory requestFactory;
     private final StudentTeacherRequestService requestService;
     private final SecurityFacade securityFacade;
+    private final ThemeFacade themeFacade;
 
     public StudentTeacherRequestProfileDTO createRequest(Long studentId, Long teacherId, TeacherStudentRequestCreateDTO createDTO) {
         return requestFactory.toStudentTeacherRequestProfileDTO( requestService.add(studentId,teacherId,createDTO));
@@ -62,5 +64,17 @@ public class StudentTeacherRequestFacade {
     public Boolean deleteById (Long requestId) {
         requestService.delete(requestId);
         return true;
+    }
+
+    @Transactional
+    public void headChangeStatus (Long requestId, Boolean approved) {
+        var request = requestService.findById(requestId);
+        request.setApproved(approved);
+        if (approved) {
+            requestService.save(request);
+            themeFacade.create(request.getLanguage(),request.getTheme(),request.getStudent());
+        } else {
+            requestService.delete(requestId);
+        }
     }
 }

@@ -151,9 +151,9 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
                 }
             }
         }
-        var theme = themeService.createTheme(request.getLanguage(),request.getTheme(),request.getStudent());
+        //var theme = themeService.createTheme(request.getLanguage(),request.getTheme(),request.getStudent());
         student.setAdviser(teacher);
-        student.setTheme(theme);
+        //student.setTheme(theme);
         repository.save(request);
 
         return request;
