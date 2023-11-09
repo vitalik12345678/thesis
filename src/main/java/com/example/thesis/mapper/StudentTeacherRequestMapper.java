@@ -1,9 +1,6 @@
 package com.example.thesis.mapper;
 
-import com.example.thesis.dto.CurrentAdviserStudentDTO;
-import com.example.thesis.dto.StudentRequestFromTeacherDTO;
-import com.example.thesis.dto.StudentTeacherRequestProfileDTO;
-import com.example.thesis.dto.TeacherRequestFromStudentDTO;
+import com.example.thesis.dto.*;
 import com.example.thesis.entity.TeacherStudentRequest;
 import org.mapstruct.Mapping;
 
@@ -29,4 +26,11 @@ public interface StudentTeacherRequestMapper {
 
     @Mapping(source = "student",target = "studentRequestDTO")
     CurrentAdviserStudentDTO toCurrentAdviserStudentDTO (TeacherStudentRequest student);
+
+    List<HoDRequestDTO> toHoDRequestDTOList (List<TeacherStudentRequest> requestList);
+
+    @Mapping(source = "student.studentId",target = "studentId")
+    @Mapping(source = "teacher.teacherId",target = "teacherId")
+    HoDRequestDTO toHoDRequestDTO (TeacherStudentRequest request);
+
 }

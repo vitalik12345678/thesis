@@ -1,9 +1,13 @@
 package com.example.thesis.conroller;
 
+import com.example.thesis.dto.HoDRequestDTO;
 import com.example.thesis.facade.StudentTeacherRequestFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/request")
@@ -29,5 +33,11 @@ public class StudentTeacherRequestController {
                                               @RequestParam Boolean approved) {
         requestFacade.headChangeStatus(requestId,approved);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/head-department/all")
+    @PreAuthorize("hasAuthority('HoD')")
+    public ResponseEntity<List<HoDRequestDTO>> findAllRequests() {
+        return ResponseEntity.ok( requestFacade.findAllRequestList() );
     }
 }

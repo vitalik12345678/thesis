@@ -29,7 +29,7 @@ public class Student implements EntityWithId<Long> {
     @Column(name = "faculty")
     private String faculty;
 
-    @Column(name = "graduateDate")
+    @Column(name = "graduate_date")
     private LocalDate graduateDate;
 
     @OneToOne

@@ -61,7 +61,10 @@ public class StudentFacade {
 
     @Transactional(readOnly = true)
     public CurrentAdviserDTO findCurrentAdviser (Student student) {
+        //TODO add field HoD approve
         var existStudent = studentService.findById(student.getStudentId());
+        var requestList = requestFacade.findStudentRequestList(existStudent);
+        var request = requestList.stream().filter(StudentRequestFromTeacherDTO::getHeadApprove).findFirst();
         var adviserDTO =  studentFactory.toCurrentAdviserDTO(existStudent);
         var lastDocument = existStudent.getDocumentList().stream()
                 .max(Comparator.comparing(Document::getCreatedDate));
@@ -69,6 +72,7 @@ public class StudentFacade {
             var stageDTO = documentFacade.findStageDTOByDocumentId(lastDocument.get().getDocumentId()) ;
             adviserDTO.setStageDTO(stageDTO);
         });
+        request.ifPresent( item -> adviserDTO.setHeadApprove(item.getHeadApprove()));
         return adviserDTO;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.thesis.config;
 
 import com.example.thesis.security.jwt.JwtAuthFilter;
+import com.example.thesis.security.jwt.JwtAuthenticationEntryPoint;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,15 +29,11 @@ import java.util.List;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
     private final JwtAuthFilter jwtAthFilter;
-
-    public SecurityConfig (UserDetailsService userDetailsService, JwtAuthFilter jwtAthFilter) {
-        this.userDetailsService = userDetailsService;
-        this.jwtAthFilter = jwtAthFilter;
-    }
 
     @Bean
     public HeaderWriter contentSecurityPolicyHeaderWriter() {

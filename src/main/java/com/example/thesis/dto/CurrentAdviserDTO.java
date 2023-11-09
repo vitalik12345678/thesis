@@ -9,6 +9,7 @@ import lombok.Setter;
 public class CurrentAdviserDTO {
     private Language language;
     private String theme;
+    private Boolean headApprove;
     private TeacherRequestDTO teacherRequestDTO;
     private StageDTO stageDTO;
 }

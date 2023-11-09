@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table
+@Table(name = "teacher_student_request")
 @Getter
 @Setter
 public class TeacherStudentRequest implements EntityWithId<Long> {
@@ -22,6 +22,9 @@ public class TeacherStudentRequest implements EntityWithId<Long> {
 
     @Column(name = "approved")
     private Boolean approved;
+
+    @Column(name = "head_approve")
+    private Boolean headApprove;
 
     @Column(name = "approve_direction")
     @Enumerated(EnumType.STRING)

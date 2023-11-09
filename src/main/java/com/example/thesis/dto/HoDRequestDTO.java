@@ -5,16 +5,20 @@ import com.example.thesis.entity.enums.Language;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
-public class StudentRequestFromTeacherDTO {
+public class HoDRequestDTO {
 
     private Long requestId;
-    private String createdDate;
-    private String theme;
+    private Long teacherId;
+    private Long studentId;
     private Boolean approved;
-    private Boolean headApprove;
+    private String theme;
+    private LocalDateTime createdDate;
     private Language language;
     private ApproveDirection direction;
-    private TeacherRequestDTO teacherRequestDTO;
+    private Boolean headApprove;
+
 }

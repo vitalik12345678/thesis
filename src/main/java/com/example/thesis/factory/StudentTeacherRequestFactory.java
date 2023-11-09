@@ -1,5 +1,6 @@
 package com.example.thesis.factory;
 
+import com.example.thesis.dto.HoDRequestDTO;
 import com.example.thesis.dto.StudentRequestFromTeacherDTO;
 import com.example.thesis.dto.StudentTeacherRequestProfileDTO;
 import com.example.thesis.dto.TeacherRequestFromStudentDTO;
@@ -35,4 +36,10 @@ public class StudentTeacherRequestFactory {
         return entityMapper.toStudentRequestFromTeacherDTO(request);
     }
 
+    public List<HoDRequestDTO> toHoDRequestDTOList (List<TeacherStudentRequest> requestList) {
+        return entityMapper.toHoDRequestDTOList(requestList);
+    }
+    public HoDRequestDTO toHoDRequestDTO (TeacherStudentRequest request) {
+        return entityMapper.toHoDRequestDTO(request);
+    }
 }

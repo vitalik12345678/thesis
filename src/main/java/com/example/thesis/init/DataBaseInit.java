@@ -25,6 +25,16 @@ public class DataBaseInit {
             studentRole.setName("student");
             repository.save(studentRole);
         }
+        if (repository.findByName("HoD").isEmpty()) {
+            var HoD = new Role();
+            HoD.setName("HoD");
+            repository.save(HoD);
+        }
+        if (repository.findByName("PS").isEmpty()) {
+            var PS = new Role();
+            PS.setName("PS");
+            repository.save(PS);
+        }
     }
 
 

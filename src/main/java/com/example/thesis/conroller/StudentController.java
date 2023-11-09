@@ -55,7 +55,7 @@ public class StudentController {
     }
 
     @GetMapping(value = "/current-adviser")
-    @PreAuthorize("hasAnyAuthority('student')")
+    @PreAuthorize("hasAuthority('student')")
     public ResponseEntity<CurrentAdviserDTO> getCurrentAdviser(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         return ResponseEntity.ok(studentFacade.findCurrentAdviser(securityFacade.getStudentByUserId(userPrincipal.getUser()
                 .getUserId())));

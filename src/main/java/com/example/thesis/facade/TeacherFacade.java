@@ -53,6 +53,7 @@ public class TeacherFacade {
                 .stream()
                 .filter(TeacherStudentRequest::getApproved)
                 .toList();
+        //TODO add field HoD approve
         var currentStudentDTOList = teacherFactory.toCurrentAdviserStudentDTOList(studentList);
         Map<Long, Optional<Document>> studentStageDTOMap = studentList.stream().collect(Collectors.toMap(
                 key -> key.getStudent().getStudentId(),

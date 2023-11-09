@@ -13,5 +13,6 @@ public class CurrentAdviserStudentDTO {
     private String theme;
     private StudentRequestDTO studentRequestDTO;
     private StageDTO stageDTO;
+    private Boolean headApprove;
 
 }

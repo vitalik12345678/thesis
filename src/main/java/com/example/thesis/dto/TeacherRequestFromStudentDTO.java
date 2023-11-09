@@ -14,6 +14,7 @@ public class TeacherRequestFromStudentDTO {
     private String createdDate;
     private String theme;
     private Boolean approved;
+    private Boolean headApprove;
     private ApproveDirection direction;
     private StudentRequestDTO studentRequestDTO;
 

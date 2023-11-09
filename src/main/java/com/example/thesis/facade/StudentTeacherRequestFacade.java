@@ -1,9 +1,6 @@
 package com.example.thesis.facade;
 
-import com.example.thesis.dto.StudentRequestFromTeacherDTO;
-import com.example.thesis.dto.StudentTeacherRequestProfileDTO;
-import com.example.thesis.dto.TeacherRequestFromStudentDTO;
-import com.example.thesis.dto.TeacherStudentRequestCreateDTO;
+import com.example.thesis.dto.*;
 import com.example.thesis.entity.Student;
 import com.example.thesis.entity.Teacher;
 import com.example.thesis.entity.User;
@@ -13,6 +10,7 @@ import com.example.thesis.factory.StudentTeacherRequestFactory;
 import com.example.thesis.service.StudentTeacherRequestService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,5 +74,10 @@ public class StudentTeacherRequestFacade {
         } else {
             requestService.delete(requestId);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<HoDRequestDTO> findAllRequestList () {
+        return requestFactory.toHoDRequestDTOList(requestService.findAll());
     }
 }
