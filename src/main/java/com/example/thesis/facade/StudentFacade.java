@@ -60,24 +60,27 @@ public class StudentFacade {
 
     @Transactional(readOnly = true)
     public CurrentAdviserDTO findCurrentAdviser (Student student) {
-        //TODO add field HoD approve
         var existStudent = studentService.findById(student.getStudentId());
         var requestList = requestFacade.findStudentRequestList(existStudent);
+        var request = requestList.stream().filter(StudentRequestFromTeacherDTO::getHeadApprove).findFirst();
         var adviserDTO =  studentFactory.toCurrentAdviserDTO(existStudent);
         var lastDocument = existStudent.getDocumentList().stream()
                 .max(Comparator.comparing(Document::getCreatedDate));
-        lastDocument.ifPresentOrElse(document ->{
-            var stageDTO = documentFacade.findStageDTOByDocumentId(document.getDocumentId()) ;
-            adviserDTO.setStageDTO(stageDTO);
-        }, () ->{
-            var stageDTO = stageFacade.getStageDTOList().stream().filter(s -> s.getSerialOrder() == 1).findFirst();
-            if (stageDTO.isEmpty()) throw new RuntimeException("No first stage in the system.");
-            else adviserDTO.setStageDTO(stageDTO.get());
-        });
-        try {
-            var request = requestList.stream().filter(StudentRequestFromTeacherDTO::getHeadApprove).findFirst();
-            request.ifPresent( item -> adviserDTO.setHeadApprove(item.getHeadApprove()));
-        } catch (Throwable ignored) {}
+        lastDocument.ifPresentOrElse(
+            document -> {
+                var stageDTO = documentFacade.findStageDTOByDocumentId(document.getDocumentId()) ;
+                adviserDTO.setStageDTO(stageDTO);
+            },
+            () -> {
+                var stageDTO = stageFacade.getStageDTOList().stream().min(Comparator.comparing(StageDTO::getSerialOrder));
+                if (stageDTO.isEmpty()) throw new RuntimeException("No stage in the system.");
+                else adviserDTO.setStageDTO(stageDTO.get());
+            }
+        );
+        request.ifPresentOrElse(
+            item -> adviserDTO.setHeadApprove(item.getHeadApprove()),
+            () -> adviserDTO.setHeadApprove(false)
+        );
         return adviserDTO;
     }
 }
