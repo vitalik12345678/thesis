@@ -9,14 +9,10 @@ import com.example.thesis.exception.ForbiddenActionException;
 import com.example.thesis.factory.StudentTeacherRequestFactory;
 import com.example.thesis.service.StudentTeacherRequestService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -67,12 +63,13 @@ public class StudentTeacherRequestFacade {
     @Transactional
     public void headChangeStatus (Long requestId, Boolean approved) {
         var request = requestService.findById(requestId);
-        request.setApproved(approved);
+        request.setHeadApprove(approved);
         if (approved) {
             requestService.save(request);
             themeFacade.create(request.getLanguage(),request.getTheme(),request.getStudent());
         } else {
             requestService.delete(requestId);
+            request.getStudent().setAdviser(null);
         }
     }
 

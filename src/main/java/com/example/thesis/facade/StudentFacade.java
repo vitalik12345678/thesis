@@ -8,18 +8,17 @@ import com.example.thesis.entity.enums.ApproveDirection;
 import com.example.thesis.factory.StudentFactory;
 import com.example.thesis.service.StudentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
 public class StudentFacade {
 
+    private final StageFacade stageFacade;
     private final StudentFactory studentFactory;
     private final StudentService studentService;
     private final DocumentFacade documentFacade;
@@ -61,18 +60,27 @@ public class StudentFacade {
 
     @Transactional(readOnly = true)
     public CurrentAdviserDTO findCurrentAdviser (Student student) {
-        //TODO add field HoD approve
         var existStudent = studentService.findById(student.getStudentId());
         var requestList = requestFacade.findStudentRequestList(existStudent);
         var request = requestList.stream().filter(StudentRequestFromTeacherDTO::getHeadApprove).findFirst();
         var adviserDTO =  studentFactory.toCurrentAdviserDTO(existStudent);
         var lastDocument = existStudent.getDocumentList().stream()
                 .max(Comparator.comparing(Document::getCreatedDate));
-        lastDocument.ifPresent(document ->{
-            var stageDTO = documentFacade.findStageDTOByDocumentId(lastDocument.get().getDocumentId()) ;
-            adviserDTO.setStageDTO(stageDTO);
-        });
-        request.ifPresent( item -> adviserDTO.setHeadApprove(item.getHeadApprove()));
+        lastDocument.ifPresentOrElse(
+            document -> {
+                var stageDTO = documentFacade.findStageDTOByDocumentId(document.getDocumentId()) ;
+                adviserDTO.setStageDTO(stageDTO);
+            },
+            () -> {
+                var stageDTO = stageFacade.getStageDTOList().stream().min(Comparator.comparing(StageDTO::getSerialOrder));
+                if (stageDTO.isEmpty()) throw new RuntimeException("No stage in the system.");
+                else adviserDTO.setStageDTO(stageDTO.get());
+            }
+        );
+        request.ifPresentOrElse(
+            item -> adviserDTO.setHeadApprove(item.getHeadApprove()),
+            () -> adviserDTO.setHeadApprove(false)
+        );
         return adviserDTO;
     }
 }

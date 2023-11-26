@@ -84,6 +84,7 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         request.setTheme(dto.getTheme());
         request.setLanguage(dto.getLanguage());
         request.setApproved(false);
+        request.setHeadApprove(false);
         request.setCreatedDate(LocalDateTime.now());
         request.setDirection(dto.getApproveDirection());
         return save(request);
@@ -122,6 +123,7 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
     }
 
     @Override
+    @Transactional
     public TeacherStudentRequest approve (TeacherStudentRequest request) {
         var student = studentService.findById(request.getStudent().getStudentId());
         if (Objects.nonNull(student.getAdviser())) {
