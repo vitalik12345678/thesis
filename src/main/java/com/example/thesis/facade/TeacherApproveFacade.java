@@ -23,4 +23,9 @@ public class TeacherApproveFacade {
     public void create (TeacherStageApproveDTO approveDTO) {
         teacherApproveService.save(approveDTO.getTeacherId(),approveDTO.getStageId());
     }
+
+    @Transactional
+    public void processBundling (Long stageId) {
+        teacherApproveService.processBundling(stageId);
+    }
 }

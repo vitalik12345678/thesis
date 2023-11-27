@@ -1,15 +1,16 @@
 package com.example.thesis.conroller;
 
 import com.example.thesis.dto.TeacherStageApproveDTO;
+import com.example.thesis.dto.TeacherStageDTO;
 import com.example.thesis.facade.TeacherApproveFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,4 +29,14 @@ public class TeacherStageApproveController {
 
     //currentTeacher StageIdList return
 
+    @GetMapping("/teacher/{teacherId}")
+    public ResponseEntity<Set<Long>> getTeacherStageDTOList(@PathVariable Long teacherId) {
+        return ResponseEntity.ok(teacherApproveFacade.findApproveStageIdSetByTeacherId(teacherId));
+    }
+
+    @PostMapping("/{stageId}")
+    public ResponseEntity<Void> processBundlingAmongTeacherAndRole(@PathVariable Long stageId) {
+        teacherApproveFacade.processBundling(stageId);
+        return ResponseEntity.ok().build();
+    }
 }
