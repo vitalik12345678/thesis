@@ -12,7 +12,7 @@ import java.util.Set;
 @Repository
 public interface TeacherApproveRepository extends JpaRepository<TeacherApprove,Long> {
 
-    @Query(value = "SELECT t.id FROM TeacherApprove t WHERE t.teacher.teacherId = :teacherId")
+    @Query(value = "SELECT t.stage.stageId FROM TeacherApprove t WHERE t.teacher.teacherId = :teacherId")
     Set<Long> findIdsByTeacherId(@Param("teacherId")Long teacherId);
 
     Boolean existsByTeacherIdAndStageId(Long teacherId,Long stageId);
