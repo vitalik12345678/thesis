@@ -21,4 +21,5 @@ public interface TeacherApproveService extends CRUDService<TeacherApprove,Long> 
     TeacherApprove findByTeacherAndStageId (Long teacherId, Long stageId);
 
     Optional<TeacherApprove> findOptByTeacherAndStageId (Long teacherId, Long stageId);
+
 }

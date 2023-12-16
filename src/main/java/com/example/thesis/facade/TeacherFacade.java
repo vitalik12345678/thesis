@@ -19,6 +19,7 @@ public class TeacherFacade {
     private final TeacherService teacherService;
     private final TeacherFactory teacherFactory;
     private final StudentTeacherRequestFacade requestFacade;
+    private final TeacherApproveFacade teacherApproveFacade;
 
     public void create(TeacherRegistrationDTO teacherRegistrationDTO, User user) {
         var teacher = teacherFactory.fromTeacherRegistrationDTO(teacherRegistrationDTO);
@@ -27,27 +28,29 @@ public class TeacherFacade {
     }
 
     @Transactional(readOnly = true)
-    public CurrentTeacherDTO getCurrentTeacherDTOByUserId (Long userId) {
+    public CurrentTeacherDTO getCurrentTeacherDTOByUserId(Long userId) {
         var teacher = teacherService.findByUserId(userId);
-        return teacherFactory.toCurrentTeacherDTO(teacher);
+        var dto = teacherFactory.toCurrentTeacherDTO(teacher);
+        dto.setAvailableStageIdSet(teacherApproveFacade.findAvailableStageIdsByTeacherId(teacher.getTeacherId()));
+        return dto;
     }
 
-    public List<TeacherRequestDTO> findAllTeacher () {
+    public List<TeacherRequestDTO> findAllTeacher() {
         var teacherList = teacherService.findAll();
         return teacherFactory.toTeacherRequestDTOList(teacherList);
     }
 
     @Transactional
-    public StudentTeacherRequestProfileDTO createStudentTeacherRequest (Long teacherId, Long studentId, TeacherStudentRequestCreateDTO createDTO) {
+    public StudentTeacherRequestProfileDTO createStudentTeacherRequest(Long teacherId, Long studentId, TeacherStudentRequestCreateDTO createDTO) {
         createDTO.setApproveDirection(ApproveDirection.STUDENT);
         return requestFacade.createRequest(studentId, teacherId, createDTO);
     }
 
-    public List<TeacherRequestFromStudentDTO> getTeacherRequestList (Teacher teacher) {
+    public List<TeacherRequestFromStudentDTO> getTeacherRequestList(Teacher teacher) {
         return (requestFacade.findTeacherRequestList(teacher));
     }
 
-    public List<CurrentAdviserStudentDTO> findCurrentStudentList (Teacher teacher) {
+    public List<CurrentAdviserStudentDTO> findCurrentStudentList(Teacher teacher) {
         var existTeacher = teacherService.findById(teacher.getTeacherId());
         var studentList = existTeacher.getRequestList()
                 .stream()
@@ -58,12 +61,12 @@ public class TeacherFacade {
         Map<Long, Optional<Document>> studentStageDTOMap = studentList.stream().collect(Collectors.toMap(
                 key -> key.getStudent().getStudentId(),
                 value -> value.getStudent().getDocumentList().
-                            stream().max(Comparator.comparing(Document::getCreatedDate))
+                        stream().max(Comparator.comparing(Document::getCreatedDate))
 
-                ));
-        currentStudentDTOList.forEach( currentAdviserStudentDTO -> {
+        ));
+        currentStudentDTOList.forEach(currentAdviserStudentDTO -> {
             var document = studentStageDTOMap.get(currentAdviserStudentDTO.getStudentRequestDTO().getStudentId());
-            document.ifPresent( existDocument -> currentAdviserStudentDTO.setStageDTO(teacherFactory.toStageDTO(existDocument.getStage())));
+            document.ifPresent(existDocument -> currentAdviserStudentDTO.setStageDTO(teacherFactory.toStageDTO(existDocument.getStage())));
         });
         return currentStudentDTOList;
     }

@@ -37,6 +37,11 @@ public class TeacherApproveFacade {
 
     @Transactional
     public void processUnBundling(Long stageId) {
+        teacherApproveService.processUnBundling(stageId);
+    }
 
+    @Transactional(readOnly = true)
+    public Set<Long> findAvailableStageIdsByTeacherId(Long teacherId) {
+        return teacherApproveService.findIdSetByTeacherId(teacherId);
     }
 }

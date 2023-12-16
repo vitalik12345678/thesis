@@ -21,7 +21,7 @@ public class TeacherController {
 
     @GetMapping(value = "/all")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<?> getAllTeacherList(){
+    public ResponseEntity<?> getAllTeacherList() {
         return ResponseEntity.ok(teacherFacade.findAllTeacher());
     }
 
@@ -32,7 +32,7 @@ public class TeacherController {
                                                          @PathVariable Long studentId) {
         return new ResponseEntity<>(teacherFacade.createStudentTeacherRequest(
                 securityFacade.getTeacherByUserId(userPrincipal.getUser().getUserId()).getTeacherId(),
-                studentId,createDTO), HttpStatus.CREATED);
+                studentId, createDTO), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/request")
