@@ -26,6 +26,14 @@ public class TeacherStageApproveController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @DeleteMapping
+    @PreAuthorize("hasAuthority('HoD')")
+    public ResponseEntity<?> deleteApprove(@RequestBody TeacherStageApproveDTO approveDTO) {
+        teacherApproveFacade.delete(approveDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
 
     //currentTeacher StageIdList return
 

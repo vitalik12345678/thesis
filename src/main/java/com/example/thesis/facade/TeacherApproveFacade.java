@@ -28,4 +28,10 @@ public class TeacherApproveFacade {
     public void processBundling (Long stageId) {
         teacherApproveService.processBundling(stageId);
     }
+
+    @Transactional
+    public void delete(TeacherStageApproveDTO approveDTO) {
+        var approve =teacherApproveService.findByTeacherAndStageId(approveDTO.getTeacherId(),approveDTO.getStageId());
+        teacherApproveService.delete(approve.getId());
+    }
 }
