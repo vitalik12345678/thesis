@@ -13,32 +13,33 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class TeacherApproveServiceImpl extends CRUDServiceImpl<TeacherApprove,Long> implements TeacherApproveService {
+public class TeacherApproveServiceImpl extends CRUDServiceImpl<TeacherApprove, Long> implements TeacherApproveService {
 
     private final TeacherApproveRepository teacherApproveRepository;
     private final TeacherService teacherService;
     private final StageService stageService;
 
     @Override
-    protected JpaRepository<TeacherApprove, Long> getRepository () {
+    protected JpaRepository<TeacherApprove, Long> getRepository() {
         return teacherApproveRepository;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Set<Long> findIdSetByTeacherId (Long teacherId) {
+    public Set<Long> findIdSetByTeacherId(Long teacherId) {
         return teacherApproveRepository.findIdsByTeacherId(teacherId);
     }
 
     @Override
     @Transactional
-    public TeacherApprove save (Long teacherId, Long stageId) {
-        if (teacherApproveRepository.existsByTeacherIdAndStageId(teacherId,stageId)) {
+    public TeacherApprove save(Long teacherId, Long stageId) {
+        if (teacherApproveRepository.existsByTeacherIdAndStageId(teacherId, stageId)) {
             throw new ExistException("You have that access to approve");
         }
         TeacherApprove teacherApprove = new TeacherApprove();
@@ -49,14 +50,14 @@ public class TeacherApproveServiceImpl extends CRUDServiceImpl<TeacherApprove,Lo
 
     @Override
     @Transactional
-    public void processBundling (Long stageId) {
+    public void processBundling(Long stageId) {
 
         Stage stage = stageService.findById(stageId);
 
         teacherService.findAll().stream()
                 .filter(item -> item.getUser().getRole().getName().equals("teacher"))
-                .forEach( teacher -> {
-                    Optional<TeacherApprove> teacherApprove = findOptByTeacherAndStageId(teacher.getTeacherId(),stageId);
+                .forEach(teacher -> {
+                    Optional<TeacherApprove> teacherApprove = findOptByTeacherAndStageId(teacher.getTeacherId(), stageId);
                     if (teacherApprove.isEmpty()) {
                         TeacherApprove newApprove = new TeacherApprove();
                         newApprove.setStage(stage);
@@ -69,13 +70,29 @@ public class TeacherApproveServiceImpl extends CRUDServiceImpl<TeacherApprove,Lo
     }
 
     @Override
-    public TeacherApprove findByTeacherAndStageId (Long teacherId, Long stageId) {
+    @Transactional
+    public void processUnBundling(Long stageId) {
+
+        Stage stage = stageService.findById(stageId);
+
+        deleteAll(findTeachersByStageId(stageId));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TeacherApprove> findTeachersByStageId(Long stageId) {
+        return teacherApproveRepository.findAllByStageId(stageId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public TeacherApprove findByTeacherAndStageId(Long teacherId, Long stageId) {
         return findOptByTeacherAndStageId(teacherId, stageId).orElseThrow(() -> new NotExistObjectException("Teacher approve doesn't exist"));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<TeacherApprove> findOptByTeacherAndStageId (Long teacherId, Long stageId) {
+    public Optional<TeacherApprove> findOptByTeacherAndStageId(Long teacherId, Long stageId) {
         return teacherApproveRepository.findByTeacherIdAndStageId(teacherId, stageId);
     }
 }

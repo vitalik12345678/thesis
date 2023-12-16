@@ -33,8 +33,6 @@ public class TeacherStageApproveController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
-
     //currentTeacher StageIdList return
 
     @GetMapping("/teacher/{teacherId}")
@@ -45,6 +43,12 @@ public class TeacherStageApproveController {
     @PostMapping("/{stageId}")
     public ResponseEntity<Void> processBundlingAmongTeacherAndRole(@PathVariable Long stageId) {
         teacherApproveFacade.processBundling(stageId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{stageId}")
+    public ResponseEntity<Void> processUnBundlingAmongTeacherAndRole(@PathVariable Long stageId) {
+        teacherApproveFacade.processUnBundling(stageId);
         return ResponseEntity.ok().build();
     }
 }

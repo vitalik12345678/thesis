@@ -30,6 +30,13 @@ public abstract class CRUDServiceImpl<ENTITY extends EntityWithId<ID>, ID> imple
     }
 
     @Override
+    @Transactional
+    public List<ENTITY> deleteAll(List<ENTITY> entities) {
+        getRepository().deleteAll(entities);
+        return entities;
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public ENTITY findById (ID id) {
         return getRepository().findById(id).orElseThrow(NotExistObjectException::new);

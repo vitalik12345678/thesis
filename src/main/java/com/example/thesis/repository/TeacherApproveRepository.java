@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -18,4 +19,6 @@ public interface TeacherApproveRepository extends JpaRepository<TeacherApprove,L
     Boolean existsByTeacherIdAndStageId(Long teacherId,Long stageId);
 
     Optional<TeacherApprove> findByTeacherIdAndStageId(Long teacherId, Long stageId);
+
+    List<TeacherApprove> findAllByStageId(Long stageId);
 }

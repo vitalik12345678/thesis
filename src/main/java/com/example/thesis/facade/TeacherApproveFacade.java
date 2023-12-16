@@ -34,4 +34,9 @@ public class TeacherApproveFacade {
         var approve =teacherApproveService.findByTeacherAndStageId(approveDTO.getTeacherId(),approveDTO.getStageId());
         teacherApproveService.delete(approve.getId());
     }
+
+    @Transactional
+    public void processUnBundling(Long stageId) {
+
+    }
 }

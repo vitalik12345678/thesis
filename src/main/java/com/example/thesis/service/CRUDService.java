@@ -12,6 +12,8 @@ public interface CRUDService <ENTITY extends EntityWithId<ID>, ID > {
 
     ENTITY delete(ID id);
 
+    List<ENTITY> deleteAll(List<ENTITY> entities);
+
     ENTITY findById(ID id);
 
     ENTITY update(ENTITY entity);
