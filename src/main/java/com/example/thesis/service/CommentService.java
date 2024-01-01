@@ -9,5 +9,5 @@ import java.util.List;
 public interface CommentService extends CRUDService<Comment,Long> {
     List<Comment> findAllByDocumentId (Long documentId);
 
-    Comment add (Comment comment, Long documentId, Long teacherId, Long studentId);
+    Comment add (Comment comment, Long documentId, Long teacherId, Long studentId,Long stageId);
 }

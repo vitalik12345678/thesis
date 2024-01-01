@@ -36,6 +36,10 @@ public class Comment implements EntityWithId<Long> {
     @JoinColumn(name = "document_id",referencedColumnName = "document_id")
     private Document document;
 
+    @ManyToOne
+    @JoinColumn(name = "stage_id",referencedColumnName = "stage_id")
+    private Stage stage;
+
     @Column(name = "from_type")
     @Enumerated(EnumType.STRING)
     private ApproveDirection fromType;

@@ -21,6 +21,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Comment,Long> implements
     private final DocumentService documentService;
     private final TeacherService teacherService;
     private final StudentService studentService;
+    private final StageService stageService;
 
     @Override
     protected JpaRepository<Comment, Long> getRepository () {
@@ -35,12 +36,13 @@ public class CommentServiceImpl extends CRUDServiceImpl<Comment,Long> implements
 
     @Override
     @Transactional
-    public Comment add (Comment comment, Long documentId, Long teacherId, Long studentId) {
+    public Comment add (Comment comment, Long documentId, Long teacherId, Long studentId,Long stageId) {
         comment.setCreatedDate(LocalDateTime.now());
         comment = this.save(comment);
         comment.setDocument(documentService.findById(documentId));
         comment.setStudent(studentService.findById(studentId));
         comment.setTeacher(teacherService.findById(teacherId));
+        comment.setStage(stageService.findById(stageId));
         return comment;
     }
 

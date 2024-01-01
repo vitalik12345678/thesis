@@ -18,4 +18,6 @@ CREATE TABLE teacher_stage_approve (
 
                                 )
 
+ALTER TABLE comment ADD COLUMN stage_id BIGINT;
+ALTER TABLE comment ADD FOREIGN KEY (stage_id) REFERENCES stage(stage_id);
 

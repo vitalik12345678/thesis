@@ -13,6 +13,7 @@ public class CommentDTO {
     private String text;
     private ApproveDirection fromType;
     private LocalDateTime createdDate;
+    private StageDTO stageDTO;
 /*    private StudentRequestDTO studentDTO;
     private TeacherRequestDTO teacherDTO;
     private DocumentDTO documentDTO;*/
