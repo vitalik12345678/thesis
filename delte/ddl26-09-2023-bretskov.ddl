@@ -8,7 +8,7 @@ CREATE TYPE approve_status AS ENUM ('APPROVED','WAITING','REJECTED');
 
 ALTER TABLE document ADD approve_status approve_status DEFAULT 'WAITING';
 
-ALTER TABLE teacher_student_request ADD head_approve boolean DEFAULT 'false';
+ALTER TABLE teacher_student_request ADD head_approve boolean DEFAULT 'true';
 
 CREATE TABLE teacher_stage_approve (
 

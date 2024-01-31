@@ -84,7 +84,7 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         request.setTheme(dto.getTheme());
         request.setLanguage(dto.getLanguage());
         request.setApproved(false);
-        request.setHeadApprove(false);
+        request.setHeadApprove(true);
         request.setCreatedDate(LocalDateTime.now());
         request.setDirection(dto.getApproveDirection());
         return save(request);
@@ -153,9 +153,9 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
                 }
             }
         }
-        //var theme = themeService.createTheme(request.getLanguage(),request.getTheme(),request.getStudent());
+        var theme = themeService.createTheme(request.getLanguage(),request.getTheme(),request.getStudent());
         student.setAdviser(teacher);
-        //student.setTheme(theme);
+        student.setTheme(theme);
         repository.save(request);
 
         return request;

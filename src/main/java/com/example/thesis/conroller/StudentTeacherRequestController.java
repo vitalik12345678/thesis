@@ -28,12 +28,12 @@ public class StudentTeacherRequestController {
         return ResponseEntity.ok(requestFacade.deleteById(requestId));
     }
 
-    @PutMapping("/{requestId}/head-department")
+/*    @PutMapping("/{requestId}/head-department")
     public ResponseEntity<Void> headChangeStatus(@PathVariable Long requestId,
                                               @RequestParam Boolean approved) {
         requestFacade.headChangeStatus(requestId,approved);
         return ResponseEntity.ok().build();
-    }
+    }*/
 
     @GetMapping("/head-department/all")
     @PreAuthorize("hasAuthority('HoD')")
