@@ -16,7 +16,7 @@ public class ThemeController {
     private final ThemeFacade themeFacade;
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('HoD')")
+    @PreAuthorize("hasAnyAuthority('student','teacher','HoD')")
     public ResponseEntity<Boolean> changeTheme(@RequestParam("theme") String theme, @PathVariable Long id) {
         return ResponseEntity.ok(themeFacade.changeTheme(theme,id));
     }

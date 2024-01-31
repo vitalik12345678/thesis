@@ -28,6 +28,9 @@ public class Theme implements EntityWithId<Long> {
     @Column(name = "date")
     private LocalDate date;
 
+    @Column(name = "deadline_date")
+    private LocalDate deadLineDate;
+
     @Override
     public Long getId () {
         return getThemeId();
