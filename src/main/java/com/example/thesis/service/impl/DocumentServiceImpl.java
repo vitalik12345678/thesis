@@ -10,6 +10,7 @@ import com.example.thesis.service.DocumentService;
 import com.example.thesis.service.StageService;
 import com.example.thesis.service.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -85,8 +86,12 @@ public class DocumentServiceImpl extends CRUDServiceImpl<Document, Long> impleme
     @Transactional
     public Document changeStage (Long documentId, Long stageId) {
         Document document = findById(documentId);
-        stageService.changeStageByDocument(document,stageId);
-        return save(document);
+        var newDocument = new Document();
+        BeanUtils.copyProperties(document,newDocument);
+        newDocument.setStatus(ApproveStatus.WAITING);
+        newDocument.setDocumentId(null);
+        stageService.changeStageByDocument(newDocument,stageId);
+        return save(newDocument);
     }
 
     @Override
