@@ -89,6 +89,8 @@ public class DocumentServiceImpl extends CRUDServiceImpl<Document, Long> impleme
         var newDocument = new Document();
         BeanUtils.copyProperties(document,newDocument);
         newDocument.setStatus(ApproveStatus.WAITING);
+        newDocument.setApprovedDate(null);
+        newDocument.setApproved(false);
         newDocument.setDocumentId(null);
         stageService.changeStageByDocument(newDocument,stageId);
         return save(newDocument);
