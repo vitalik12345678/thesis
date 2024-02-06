@@ -65,7 +65,7 @@ public class StudentFacade {
         var request = requestList.stream().filter(StudentRequestFromTeacherDTO::getHeadApprove).findFirst();
         var adviserDTO =  studentFactory.toCurrentAdviserDTO(existStudent);
         var lastDocument = existStudent.getDocumentList().stream()
-                .max(Comparator.comparing(Document::getCreatedDate));
+                .max(Comparator.comparing(Document::getCreatedDate).thenComparingInt(a -> a.getStage().getSerialOrder()));
         lastDocument.ifPresentOrElse(
             document -> {
                 var stageDTO = documentFacade.findStageDTOByDocumentId(document.getDocumentId()) ;
