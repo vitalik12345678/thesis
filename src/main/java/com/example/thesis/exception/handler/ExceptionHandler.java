@@ -2,7 +2,10 @@ package com.example.thesis.exception.handler;
 
 import com.example.thesis.exception.*;
 import io.jsonwebtoken.ExpiredJwtException;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -69,13 +72,8 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ProblemDetail createProblemDetail (Exception ex, HttpStatusCode status, String defaultDetail, String detailMessageCode, Object[] detailMessageArguments, WebRequest request) {
-        return super.createProblemDetail(ex, status, defaultDetail, detailMessageCode, detailMessageArguments, request);
-    }
-
-    @Override
     protected ResponseEntity<Object> handleExceptionInternal (Exception ex, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
-        return buildException(List.of(ex.getMessage()),HttpStatus.valueOf(statusCode.value()));
+        return buildException(Collections.singletonList(ex.getMessage()),HttpStatus.valueOf(statusCode.value()));
     }
 
 }

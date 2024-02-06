@@ -1,11 +1,9 @@
 package com.example.thesis.service.impl;
 
-import com.example.thesis.dto.CommentCreateDTO;
 import com.example.thesis.entity.Comment;
 import com.example.thesis.repository.CommentRepository;
 import com.example.thesis.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

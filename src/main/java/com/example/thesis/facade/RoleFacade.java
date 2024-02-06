@@ -1,7 +1,6 @@
 package com.example.thesis.facade;
 
 import com.example.thesis.dto.RoleDTO;
-import com.example.thesis.entity.Role;
 import com.example.thesis.factory.RoleFactory;
 import com.example.thesis.service.RoleService;
 import lombok.RequiredArgsConstructor;

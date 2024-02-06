@@ -5,5 +5,5 @@ import org.mapstruct.MappingConstants;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface EntityMapper extends UserMapper,TeacherMapper,StudentMapper,
-        RoleMapper,DocumentMapper,StudentTeacherRequestMapper,StageMapper,CommentMapper  {
+        RoleMapper,DocumentMapper,StudentTeacherRequestMapper,StageMapper,CommentMapper,UserTokenMapper  {
 }

@@ -1,7 +1,6 @@
 package com.example.thesis.config;
 
 import com.example.thesis.security.jwt.JwtAuthFilter;
-import com.example.thesis.security.jwt.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

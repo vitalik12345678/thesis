@@ -16,9 +16,17 @@ CREATE TABLE teacher_stage_approve (
     teacher_id BIGSERIAL REFERENCES teacher(teacher_id),
     stage_id BIGSERIAL REFERENCES stage(stage_id)
 
-                                )
+                                );
 
 ALTER TABLE comment ADD COLUMN stage_id BIGINT;
 ALTER TABLE comment ADD FOREIGN KEY (stage_id) REFERENCES stage(stage_id);
 
 ALTER TABLE theme ADD COLUMN deadline_data DATE;
+
+CREATE TABLE user_token (
+
+                                       id BIGSERIAL PRIMARY KEY,
+                                       email TEXT UNIQUE ,
+                                       token TEXT
+
+)

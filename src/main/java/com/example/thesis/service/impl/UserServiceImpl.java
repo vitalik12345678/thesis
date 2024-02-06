@@ -6,13 +6,12 @@ import com.example.thesis.repository.UserRepository;
 import com.example.thesis.service.RoleService;
 import com.example.thesis.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -56,5 +55,11 @@ public class UserServiceImpl extends CRUDServiceImpl<User,Long> implements UserS
     public User saveTeacher (User teacher) {
         teacher.setRole(roleService.findByName("teacher"));
         return save(teacher);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> findByEmailList(List<String> emails) {
+        return userRepository.findAllByEmailIn(emails);
     }
 }

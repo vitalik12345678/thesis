@@ -2,7 +2,6 @@ package com.example.thesis.service.impl;
 
 import com.example.thesis.entity.Document;
 import com.example.thesis.entity.Stage;
-import com.example.thesis.exception.NotExistObjectException;
 import com.example.thesis.exception.UnAvailableDeleteException;
 import com.example.thesis.repository.StageRepository;
 import com.example.thesis.service.StageService;
@@ -10,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

@@ -8,8 +8,6 @@ import com.example.thesis.exception.ForbiddenActionException;
 import com.example.thesis.factory.DocumentFactory;
 import com.example.thesis.service.DocumentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,6 +1,5 @@
 package com.example.thesis.dto;
 
-import com.example.thesis.entity.enums.Degree;
 import com.example.thesis.entity.enums.Language;
 import lombok.Getter;
 import lombok.Setter;

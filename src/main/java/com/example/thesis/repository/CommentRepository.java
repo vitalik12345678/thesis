@@ -1,7 +1,6 @@
 package com.example.thesis.repository;
 
 import com.example.thesis.entity.Comment;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

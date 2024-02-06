@@ -5,8 +5,6 @@ import com.example.thesis.dto.LoginDTO;
 import com.example.thesis.dto.StudentRegistrationDTO;
 import com.example.thesis.dto.TeacherRegistrationDTO;
 import com.example.thesis.service.AuthenticationService;
-import com.example.thesis.service.StudentService;
-import com.example.thesis.service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

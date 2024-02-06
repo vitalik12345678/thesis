@@ -2,12 +2,10 @@ package com.example.thesis.facade;
 
 import com.example.thesis.dto.CommentCreateDTO;
 import com.example.thesis.dto.CommentDTO;
-import com.example.thesis.dto.DocumentDTO;
 import com.example.thesis.entity.Comment;
 import com.example.thesis.factory.CommentFactory;
 import com.example.thesis.service.CommentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

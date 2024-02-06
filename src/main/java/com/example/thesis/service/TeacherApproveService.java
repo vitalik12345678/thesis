@@ -1,7 +1,6 @@
 package com.example.thesis.service;
 
 import com.example.thesis.entity.TeacherApprove;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;

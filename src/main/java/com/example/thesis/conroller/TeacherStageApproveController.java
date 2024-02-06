@@ -1,7 +1,6 @@
 package com.example.thesis.conroller;
 
 import com.example.thesis.dto.TeacherStageApproveDTO;
-import com.example.thesis.dto.TeacherStageDTO;
 import com.example.thesis.facade.TeacherApproveFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -41,12 +39,14 @@ public class TeacherStageApproveController {
     }
 
     @PostMapping("/{stageId}")
+    @PreAuthorize("hasAuthority('HoD')")
     public ResponseEntity<Void> processBundlingAmongTeacherAndRole(@PathVariable Long stageId) {
         teacherApproveFacade.processBundling(stageId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{stageId}")
+    @PreAuthorize("hasAuthority('HoD')")
     public ResponseEntity<Void> processUnBundlingAmongTeacherAndRole(@PathVariable Long stageId) {
         teacherApproveFacade.processUnBundling(stageId);
         return ResponseEntity.ok().build();

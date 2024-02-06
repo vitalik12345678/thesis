@@ -4,7 +4,6 @@ import com.example.thesis.entity.Document;
 import com.example.thesis.entity.Stage;
 import com.example.thesis.entity.enums.ApproveStatus;
 import org.springframework.core.io.Resource;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

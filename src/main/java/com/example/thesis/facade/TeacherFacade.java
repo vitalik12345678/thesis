@@ -1,7 +1,10 @@
 package com.example.thesis.facade;
 
 import com.example.thesis.dto.*;
-import com.example.thesis.entity.*;
+import com.example.thesis.entity.Document;
+import com.example.thesis.entity.Teacher;
+import com.example.thesis.entity.TeacherStudentRequest;
+import com.example.thesis.entity.User;
 import com.example.thesis.entity.enums.ApproveDirection;
 import com.example.thesis.factory.TeacherFactory;
 import com.example.thesis.service.TeacherService;
@@ -9,7 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
