@@ -25,8 +25,8 @@ public class TeacherApproveFacade {
     }
 
     @Transactional
-    public void processBundling (Long stageId) {
-        teacherApproveService.processBundling(stageId);
+    public void processBundling (Long stageId, Long roleId) {
+        teacherApproveService.processBundling(stageId,roleId);
     }
 
     @Transactional
@@ -36,8 +36,8 @@ public class TeacherApproveFacade {
     }
 
     @Transactional
-    public void processUnBundling(Long stageId) {
-        teacherApproveService.processUnBundling(stageId);
+    public void processUnBundling(Long stageId,Long roleId) {
+        teacherApproveService.processUnBundling(stageId,roleId);
     }
 
     @Transactional(readOnly = true)

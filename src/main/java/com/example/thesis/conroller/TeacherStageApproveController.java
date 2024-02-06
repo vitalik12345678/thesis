@@ -38,17 +38,17 @@ public class TeacherStageApproveController {
         return ResponseEntity.ok(teacherApproveFacade.findApproveStageIdSetByTeacherId(teacherId));
     }
 
-    @PostMapping("/{stageId}")
+    @PostMapping("/{stageId}/{roleId}")
     @PreAuthorize("hasAuthority('HoD')")
-    public ResponseEntity<Void> processBundlingAmongTeacherAndRole(@PathVariable Long stageId) {
-        teacherApproveFacade.processBundling(stageId);
+    public ResponseEntity<Void> processBundlingAmongTeacherAndRole(@PathVariable Long stageId, @PathVariable Long roleId) {
+        teacherApproveFacade.processBundling(stageId,roleId);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{stageId}")
+    @DeleteMapping("/{stageId}/{roleId}")
     @PreAuthorize("hasAuthority('HoD')")
-    public ResponseEntity<Void> processUnBundlingAmongTeacherAndRole(@PathVariable Long stageId) {
-        teacherApproveFacade.processUnBundling(stageId);
+    public ResponseEntity<Void> processUnBundlingAmongTeacherAndRole(@PathVariable Long stageId, @PathVariable Long roleId) {
+        teacherApproveFacade.processUnBundling(stageId,roleId);
         return ResponseEntity.ok().build();
     }
 }

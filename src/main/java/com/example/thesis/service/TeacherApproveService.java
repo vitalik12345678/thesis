@@ -11,9 +11,9 @@ public interface TeacherApproveService extends CRUDService<TeacherApprove,Long> 
 
     TeacherApprove save(Long teacherId,Long stageId);
 
-    void processBundling (Long stageId);
+    void processBundling (Long stageId, Long roleId);
 
-    void processUnBundling(Long stageId);
+    void processUnBundling(Long stageId, Long roleId);
 
     List<TeacherApprove> findTeachersByStageId(Long stageId);
 

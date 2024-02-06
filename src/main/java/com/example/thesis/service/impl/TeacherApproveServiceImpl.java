@@ -1,10 +1,12 @@
 package com.example.thesis.service.impl;
 
+import com.example.thesis.entity.Role;
 import com.example.thesis.entity.Stage;
 import com.example.thesis.entity.TeacherApprove;
 import com.example.thesis.exception.ExistException;
 import com.example.thesis.exception.NotExistObjectException;
 import com.example.thesis.repository.TeacherApproveRepository;
+import com.example.thesis.service.RoleService;
 import com.example.thesis.service.StageService;
 import com.example.thesis.service.TeacherApproveService;
 import com.example.thesis.service.TeacherService;
@@ -24,6 +26,7 @@ public class TeacherApproveServiceImpl extends CRUDServiceImpl<TeacherApprove, L
     private final TeacherApproveRepository teacherApproveRepository;
     private final TeacherService teacherService;
     private final StageService stageService;
+    private final RoleService roleService;
 
     @Override
     protected JpaRepository<TeacherApprove, Long> getRepository() {
@@ -50,12 +53,13 @@ public class TeacherApproveServiceImpl extends CRUDServiceImpl<TeacherApprove, L
 
     @Override
     @Transactional
-    public void processBundling(Long stageId) {
+    public void processBundling(Long stageId, Long roleId) {
 
         Stage stage = stageService.findById(stageId);
+        Role role = roleService.findById(roleId);
 
         teacherService.findAll().stream()
-                .filter(item -> item.getUser().getRole().getName().equals("teacher"))
+                .filter(item -> item.getUser().getRole().getName().equals(role.getName()))
                 .forEach(teacher -> {
                     Optional<TeacherApprove> teacherApprove = findOptByTeacherAndStageId(teacher.getTeacherId(), stageId);
                     if (teacherApprove.isEmpty()) {
@@ -71,11 +75,15 @@ public class TeacherApproveServiceImpl extends CRUDServiceImpl<TeacherApprove, L
 
     @Override
     @Transactional
-    public void processUnBundling(Long stageId) {
+    public void processUnBundling(Long stageId,Long roleId) {
 
         Stage stage = stageService.findById(stageId);
+        Role role = roleService.findById(roleId);
 
-        deleteAll(findTeachersByStageId(stageId));
+        var teachers = findTeachersByStageId(stageId);
+        var filteredTeachers = teachers.stream().filter( item -> item.getTeacher().getUser().getRole().getRoleId().equals(role.getRoleId())).toList();
+
+        deleteAll(teachers);
     }
 
     @Override

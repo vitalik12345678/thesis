@@ -58,6 +58,14 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(exceptionDetails, httpStatus);
     }
+    private ResponseEntity<Object> buildException(String message, HttpStatus httpStatus){
+        var exceptionDetails = new ExceptionDetails();
+
+        exceptionDetails.setMessages(Collections.singletonList(message));
+        exceptionDetails.setStatus(httpStatus);
+
+        return new ResponseEntity<>(exceptionDetails, httpStatus);
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid (MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
@@ -73,7 +81,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal (Exception ex, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
-        return buildException(Collections.singletonList(ex.getMessage()),HttpStatus.valueOf(statusCode.value()));
+        return buildException(ex.getMessage(),HttpStatus.valueOf(statusCode.value()));
     }
 
 }
