@@ -6,6 +6,8 @@ import com.example.thesis.mapper.EntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class RoleFactory {
@@ -18,6 +20,10 @@ public class RoleFactory {
 
     public Role toRole(RoleDTO roleDTO) {
         return entityMapper.toRole(roleDTO);
+    }
+
+    public List<RoleDTO> toRoleDTOList(List<Role> roleList) {
+        return entityMapper.toRoleDTOList(roleList);
     }
 
 }

@@ -9,4 +9,5 @@ public class TeacherRequestDTO {
     private Long teacherId;
     private String firstName;
     private String lastName;
+    private RoleDTO roleDTO;
 }

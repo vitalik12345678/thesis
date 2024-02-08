@@ -16,10 +16,12 @@ public interface TeacherMapper {
 
     @Mapping(source = "user.firstName",target = "firstName")
     @Mapping(source = "user.lastName",target = "lastName")
+    @Mapping(source = "user.role",target = "roleDTO")
     List<TeacherRequestDTO> toTeacherRequestDTOList (List<Teacher> teacherList);
 
     @Mapping(source = "user.firstName",target = "firstName")
     @Mapping(source = "user.lastName",target = "lastName")
+    @Mapping(source = "user.role",target = "roleDTO")
     TeacherRequestDTO toTeacherRequestDTO(Teacher teacher);
 
 
