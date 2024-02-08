@@ -3,6 +3,7 @@ package com.example.thesis.facade;
 import com.example.thesis.dto.CurrentUserDTO;
 import com.example.thesis.dto.StudentRegistrationDTO;
 import com.example.thesis.dto.TeacherRegistrationDTO;
+import com.example.thesis.dto.UserDTO;
 import com.example.thesis.exception.NullObjectException;
 import com.example.thesis.factory.UserFactory;
 import com.example.thesis.security.UserPrincipal;
@@ -12,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -38,6 +40,7 @@ public class UserFacade {
         studentFacade.create(studentRegistrationDTO,user);
     }
 
+    @Transactional(readOnly = true)
     public CurrentUserDTO getCurrentUser () {
         var userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         var user = userPrincipal.getUser();
@@ -58,5 +61,22 @@ public class UserFacade {
         }
 
         return currentUserDTO;
+    }
+
+    @Transactional(readOnly = true)
+    public UserDTO findById(Long id) {
+        return userFactory.toUserDTO(userService.findById(id));
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserDTO> findAll() {
+        return userFactory.toUserDTOList(userService.findAll());
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        studentFacade.deleteByUserId(id);
+        teacherFacade.deleteByUserId(id);
+        userService.delete(id);
     }
 }

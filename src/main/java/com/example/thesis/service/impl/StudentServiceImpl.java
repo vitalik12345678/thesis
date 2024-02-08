@@ -29,7 +29,14 @@ public class StudentServiceImpl extends CRUDServiceImpl<Student,Long> implements
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Student> findByUserIdOpt (Long userId) {
         return studentRepository.findByUserId(userId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByUserId(Long id) {
+        studentRepository.deleteByUserId(id);
     }
 }

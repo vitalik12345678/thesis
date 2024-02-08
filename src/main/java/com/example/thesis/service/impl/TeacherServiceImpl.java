@@ -32,4 +32,9 @@ public class TeacherServiceImpl extends CRUDServiceImpl<Teacher,Long> implements
     public Optional<Teacher> findByUserIdOpt (Long userId) {
         return teacherRepository.findByUserId(userId);
     }
+
+    @Override
+    public void deleteByUserId(Long id) {
+        teacherRepository.deleteByUserId(id);
+    }
 }

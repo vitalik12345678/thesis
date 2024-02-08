@@ -27,6 +27,7 @@ public class TeacherFacade {
     private final StudentTeacherRequestFacade requestFacade;
     private final TeacherApproveFacade teacherApproveFacade;
 
+    @Transactional
     public void create(TeacherRegistrationDTO teacherRegistrationDTO, User user) {
         var teacher = teacherFactory.fromTeacherRegistrationDTO(teacherRegistrationDTO);
         teacher.setUser(user);
@@ -41,6 +42,7 @@ public class TeacherFacade {
         return dto;
     }
 
+    @Transactional(readOnly = true)
     public List<TeacherRequestDTO> findAllTeacher() {
         var teacherList = teacherService.findAll();
         return teacherFactory.toTeacherRequestDTOList(teacherList);
@@ -52,10 +54,12 @@ public class TeacherFacade {
         return requestFacade.createRequest(studentId, teacherId, createDTO);
     }
 
+    @Transactional(readOnly = true)
     public List<TeacherRequestFromStudentDTO> getTeacherRequestList(Teacher teacher) {
         return (requestFacade.findTeacherRequestList(teacher));
     }
 
+    @Transactional(readOnly = true)
     public List<CurrentAdviserStudentDTO> findCurrentStudentList(Teacher teacher) {
         var existTeacher = teacherService.findById(teacher.getTeacherId());
         var studentList = existTeacher.getRequestList()
@@ -75,5 +79,10 @@ public class TeacherFacade {
             document.ifPresent(existDocument -> currentAdviserStudentDTO.setStageDTO(teacherFactory.toStageDTO(existDocument.getStage())));
         });
         return currentStudentDTOList;
+    }
+
+    @Transactional
+    public void deleteByUserId(Long id) {
+        teacherService.deleteByUserId(id);
     }
 }

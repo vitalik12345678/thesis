@@ -8,4 +8,6 @@ public interface TeacherService extends CRUDService<Teacher,Long> {
     Teacher findByUserId (Long userId);
 
     Optional<Teacher> findByUserIdOpt (Long userId);
+
+    void deleteByUserId(Long id);
 }

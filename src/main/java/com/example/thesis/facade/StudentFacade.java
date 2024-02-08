@@ -83,4 +83,9 @@ public class StudentFacade {
         );
         return adviserDTO;
     }
+
+    @Transactional
+    public void deleteByUserId(Long id) {
+        studentService.deleteByUserId(id);
+    }
 }

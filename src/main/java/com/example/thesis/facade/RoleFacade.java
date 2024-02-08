@@ -6,6 +6,7 @@ import com.example.thesis.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,10 +17,12 @@ public class RoleFacade {
     private final RoleService roleService;
     private final RoleFactory roleFactory;
 
+    @Transactional(readOnly = true)
     public RoleDTO findByName(String name) {
         return roleFactory.toRoleDTO(roleService.findByName(name));
     }
 
+    @Transactional(readOnly = true)
     public List<RoleDTO> findAll() {
         return roleFactory.toRoleDTOList(roleService.findAll());
     }
