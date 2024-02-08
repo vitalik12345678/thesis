@@ -1,9 +1,10 @@
 package com.example.thesis.conroller;
 
-import com.example.thesis.dto.CurrentUserDTO;
-import com.example.thesis.dto.UserDTO;
+import com.example.thesis.dto.*;
 import com.example.thesis.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,17 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping(value = "/student")
+    public ResponseEntity<Void> createStudent(@RequestBody StudentRegistrationDTO studentRegistrationDTO) {
+        userFacade.saveStudent(studentRegistrationDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/teacher")
+    public ResponseEntity<Void> createStudent(@RequestBody TeacherRegistrationHODDTO teacherRegistrationDTO) {
+        userFacade.saveTeacher(teacherRegistrationDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
 
 

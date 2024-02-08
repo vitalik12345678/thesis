@@ -1,9 +1,6 @@
 package com.example.thesis.facade;
 
-import com.example.thesis.dto.CurrentUserDTO;
-import com.example.thesis.dto.StudentRegistrationDTO;
-import com.example.thesis.dto.TeacherRegistrationDTO;
-import com.example.thesis.dto.UserDTO;
+import com.example.thesis.dto.*;
 import com.example.thesis.exception.NullObjectException;
 import com.example.thesis.factory.UserFactory;
 import com.example.thesis.security.UserPrincipal;
@@ -31,6 +28,12 @@ public class UserFacade {
         var user = userFactory.fromRegistrationDTO(teacherRegistrationDTO);
         user = userService.saveTeacher(user);
         teacherFacade.create(teacherRegistrationDTO, user);
+    }
+    @Transactional
+    public void saveTeacher (TeacherRegistrationHODDTO teacherRegistrationHODDTO) {
+        var user = userFactory.fromRegistrationDTO(teacherRegistrationHODDTO);
+        user = userService.saveTeacher(user);
+        teacherFacade.create(teacherRegistrationHODDTO, user);
     }
 
     @Transactional

@@ -11,6 +11,7 @@ import java.util.List;
 public interface TeacherMapper {
 
     Teacher fromTeacherRegistrationDTO(TeacherRegistrationDTO teacherRegistrationDTO);
+    Teacher fromTeacherRegistrationHODDTO(TeacherRegistrationDTO teacherRegistrationDTO);
 
     CurrentTeacherDTO toCurrentTeacherDTO (Teacher teacher);
 

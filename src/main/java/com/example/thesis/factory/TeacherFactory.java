@@ -19,6 +19,9 @@ public class TeacherFactory {
     public Teacher fromTeacherRegistrationDTO(TeacherRegistrationDTO teacherRegistrationDTO) {
         return entityMapper.fromTeacherRegistrationDTO(teacherRegistrationDTO);
     }
+    public Teacher fromTeacherRegistrationHODDTO(TeacherRegistrationHODDTO teacherRegistrationDTO) {
+        return entityMapper.fromTeacherRegistrationHODDTO(teacherRegistrationDTO);
+    }
 
     public CurrentTeacherDTO toCurrentTeacherDTO (Teacher teacher) {
         return entityMapper.toCurrentTeacherDTO(teacher);

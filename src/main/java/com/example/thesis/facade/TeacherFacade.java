@@ -33,6 +33,12 @@ public class TeacherFacade {
         teacher.setUser(user);
         teacherService.save(teacher);
     }
+    @Transactional
+    public void create(TeacherRegistrationHODDTO teacherRegistrationDTO, User user) {
+        var teacher = teacherFactory.fromTeacherRegistrationHODDTO(teacherRegistrationDTO);
+        teacher.setUser(user);
+        teacherService.save(teacher);
+    }
 
     @Transactional(readOnly = true)
     public CurrentTeacherDTO getCurrentTeacherDTOByUserId(Long userId) {
