@@ -3,6 +3,7 @@ package com.example.thesis.factory;
 import com.example.thesis.dto.*;
 import com.example.thesis.entity.Document;
 import com.example.thesis.entity.Student;
+import com.example.thesis.entity.enums.Degree;
 import com.example.thesis.mapper.EntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -37,5 +38,13 @@ public class StudentFactory {
 
     public StageDTO toStageDTO (Document document) {
         return entityMapper.toStageDTO(document.getStage());
+    }
+
+    public Student copyToStudent(StudentUpdateHodDTO dto, Student student) {
+        student.setCluster(dto.getCluster());
+        student.setFaculty(dto.getFaculty());
+        student.setGraduateDate(dto.getGraduateDate());
+        student.setDegree(dto.getDegree());
+        return student;
     }
 }

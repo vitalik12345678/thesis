@@ -1,6 +1,7 @@
 package com.example.thesis.facade;
 
 import com.example.thesis.dto.RoleDTO;
+import com.example.thesis.entity.Role;
 import com.example.thesis.factory.RoleFactory;
 import com.example.thesis.service.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,10 @@ public class RoleFacade {
     @Transactional(readOnly = true)
     public List<RoleDTO> findAll() {
         return roleFactory.toRoleDTOList(roleService.findAll());
+    }
+
+    @Transactional
+    public Role findByIdEntity(Long roleId) {
+        return roleService.getReferenceById(roleId);
     }
 }

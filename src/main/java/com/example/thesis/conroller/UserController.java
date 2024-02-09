@@ -53,6 +53,16 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/student/{id}")
+    public ResponseEntity<Void> updateStudent(@PathVariable Long id,@RequestBody StudentUpdateHodDTO dto) {
+        userFacade.updateHodStudent(dto,id);
+        return ResponseEntity.ok().build();
+    }
 
+    @PutMapping(value = "/teacher/{id}")
+    public ResponseEntity<Void> updateTeacher(@PathVariable Long id,@RequestBody TeacherUpdateHodDTO dto) {
+        userFacade.updateHodTeacher(dto,id);
+        return ResponseEntity.ok().build();
+    }
 
 }

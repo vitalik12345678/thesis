@@ -88,4 +88,12 @@ public class StudentFacade {
     public void deleteByUserId(Long id) {
         studentService.deleteByUserId(id);
     }
+
+    @Transactional
+    public void updateHodStudentByUserId(StudentUpdateHodDTO dto, Long id) {
+        Student student = studentService.findByUserId(id);
+        studentFactory.copyToStudent(dto,student);
+        studentService.save(student);
+
+    }
 }

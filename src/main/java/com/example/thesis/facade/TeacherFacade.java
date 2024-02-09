@@ -91,4 +91,12 @@ public class TeacherFacade {
     public void deleteByUserId(Long id) {
         teacherService.deleteByUserId(id);
     }
+
+    @Transactional
+    public void updateHodTeacherByUserid(TeacherUpdateHodDTO dto, Long id) {
+
+        Teacher teacher = teacherService.findByUserId(id);
+        teacherFactory.toTeacher(dto,teacher);
+        teacherService.save(teacher);
+    }
 }

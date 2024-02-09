@@ -1,11 +1,13 @@
 package com.example.thesis.facade;
 
 import com.example.thesis.dto.*;
+import com.example.thesis.entity.User;
 import com.example.thesis.exception.NullObjectException;
 import com.example.thesis.factory.UserFactory;
 import com.example.thesis.security.UserPrincipal;
 import com.example.thesis.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,5 +83,28 @@ public class UserFacade {
         studentFacade.deleteByUserId(id);
         teacherFacade.deleteByUserId(id);
         userService.delete(id);
+    }
+
+    @Transactional
+    public void updateHodStudent(StudentUpdateHodDTO dto, Long id) {
+
+        User user = userService.findById(id);
+        BeanUtils.copyProperties(dto,user);
+        user.setRole(roleFacade.findByIdEntity(dto.getRoleId()));
+        userService.save(user);
+
+        studentFacade.updateHodStudentByUserId(dto,id);
+
+    }
+
+    @Transactional
+    public void updateHodTeacher(TeacherUpdateHodDTO dto, Long id) {
+
+        User user = userService.findById(id);
+        BeanUtils.copyProperties(dto,user);
+        user.setRole(roleFacade.findByIdEntity(dto.getRoleId()));
+        userService.save(user);
+
+        teacherFacade.updateHodTeacherByUserid(dto,id);
     }
 }

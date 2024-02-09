@@ -42,4 +42,10 @@ public class TeacherFactory {
     public StageDTO toStageDTO (Stage stage) {
         return entityMapper.toStageDTO(stage);
     }
+
+    public Teacher toTeacher(TeacherUpdateHodDTO dto, Teacher teacher) {
+        teacher.setGeneralBachelor(dto.getGeneralBachelor());
+        teacher.setGeneralMaster(dto.getGeneralMaster());
+        return teacher;
+    }
 }
