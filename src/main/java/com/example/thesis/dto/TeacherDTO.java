@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class CurrentTeacherDTO {
+public class TeacherDTO {
 
     private Long teacherId;
     private Long generalBachelor;

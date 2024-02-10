@@ -1,6 +1,6 @@
 package com.example.thesis.factory;
 
-import com.example.thesis.dto.CurrentUserDTO;
+import com.example.thesis.dto.FullUserInfoDTO;
 import com.example.thesis.dto.RoleDTO;
 import com.example.thesis.dto.TeacherRegistrationDTO;
 import com.example.thesis.dto.UserDTO;
@@ -27,8 +27,8 @@ public class UserFactory {
         return roleFactory.toRole(roleDTO);
     }
 
-    public CurrentUserDTO toCurrentUserDTO (User user) {
-        return entityMapper.toCurrentUserDTO(user);
+    public FullUserInfoDTO toFullUserInfoDTO(User user) {
+        return entityMapper.toFullUserInfoDTO(user);
     }
 
     public UserDTO toUserDTO(User id) {

@@ -23,7 +23,7 @@ public class TeacherFactory {
         return entityMapper.fromTeacherRegistrationHODDTO(teacherRegistrationDTO);
     }
 
-    public CurrentTeacherDTO toCurrentTeacherDTO (Teacher teacher) {
+    public TeacherDTO toCurrentTeacherDTO (Teacher teacher) {
         return entityMapper.toCurrentTeacherDTO(teacher);
     }
 

@@ -3,7 +3,6 @@ package com.example.thesis.factory;
 import com.example.thesis.dto.*;
 import com.example.thesis.entity.Document;
 import com.example.thesis.entity.Student;
-import com.example.thesis.entity.enums.Degree;
 import com.example.thesis.mapper.EntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,8 +23,8 @@ public class StudentFactory {
         return entityMapper.toStudentFileInfoDTOList(documentListByStudentId);
     }
 
-    public CurrentStudentDTO toCurrentStudentDTO (Student student) {
-        return entityMapper.toCurrentStudentDTO(student);
+    public StudentDTO toStudentDTO(Student student) {
+        return entityMapper.toStudentDTO(student);
     }
 
     public List<StudentRequestDTO> toStudentRequestDTOList (List<Student> studentList) {

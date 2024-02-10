@@ -46,31 +46,44 @@ public class UserFacade {
     }
 
     @Transactional(readOnly = true)
-    public CurrentUserDTO getCurrentUser () {
+    public FullUserInfoDTO getCurrentUser () {
         var userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         var user = userPrincipal.getUser();
         if (Objects.isNull(user)) {
             throw new NullObjectException("User is null");
         }
-        var currentUserDTO = userFactory.toCurrentUserDTO(user);
+        var fullUserInfoDTO = userFactory.toFullUserInfoDTO(user);
 
         switch (user.getRole().getName()) {
             case "teacher" -> {
                 var currentTeacherDTO = teacherFacade.getCurrentTeacherDTOByUserId(user.getUserId());
-                currentUserDTO.setTeacherDTO(currentTeacherDTO);
+                fullUserInfoDTO.setTeacherDTO(currentTeacherDTO);
             }
             case "student" -> {
                 var currentStudentDTO = studentFacade.getCurrentStudentDTOByUserId(user.getUserId());
-                currentUserDTO.setStudentDTO(currentStudentDTO);
+                fullUserInfoDTO.setStudentDTO(currentStudentDTO);
             }
         }
 
-        return currentUserDTO;
+        return fullUserInfoDTO;
     }
 
     @Transactional(readOnly = true)
-    public UserDTO findById(Long id) {
-        return userFactory.toUserDTO(userService.findById(id));
+    public FullUserInfoDTO findById(Long id) {
+        var fullUserInfoDTO = userFactory.toFullUserInfoDTO(userService.findById(id));
+
+        switch (fullUserInfoDTO.getRoleDTO().getName()) {
+            case "teacher" -> {
+                var currentTeacherDTO = teacherFacade.getCurrentTeacherDTOByUserId(fullUserInfoDTO.getUserId());
+                fullUserInfoDTO.setTeacherDTO(currentTeacherDTO);
+            }
+            case "student" -> {
+                var currentStudentDTO = studentFacade.getCurrentStudentDTOByUserId(fullUserInfoDTO.getUserId());
+                fullUserInfoDTO.setStudentDTO(currentStudentDTO);
+            }
+        }
+
+        return fullUserInfoDTO;
     }
 
     @Transactional(readOnly = true)
