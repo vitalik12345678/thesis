@@ -47,4 +47,8 @@ public class StudentFactory {
         student.setDegree(dto.getDegree());
         return student;
     }
+
+    public DocumentDTO toHodInfoDto(Document document) {
+        return entityMapper.toDocumentDTO(document);
+    }
 }

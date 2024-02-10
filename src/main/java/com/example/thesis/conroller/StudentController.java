@@ -1,9 +1,6 @@
 package com.example.thesis.conroller;
 
-import com.example.thesis.dto.CurrentAdviserDTO;
-import com.example.thesis.dto.StudentFileInfoDTO;
-import com.example.thesis.dto.StudentRequestDTO;
-import com.example.thesis.dto.TeacherStudentRequestCreateDTO;
+import com.example.thesis.dto.*;
 import com.example.thesis.facade.SecurityFacade;
 import com.example.thesis.facade.StudentFacade;
 import com.example.thesis.security.UserPrincipal;
@@ -43,6 +40,12 @@ public class StudentController {
     @PreAuthorize("permitAll()")
     public ResponseEntity<List<StudentRequestDTO>> getAllStudent() {
         return ResponseEntity.ok(studentFacade.findAll());
+    }
+
+    @GetMapping(value = "/hod-info")
+    @PreAuthorize("hasAnyAuthority('HoD','PS')")
+    public ResponseEntity<List<DocumentDTO>> getHodStudentInfo(){
+        return ResponseEntity.ok(studentFacade.getHodInfoList());
     }
 
     @GetMapping(value = "/request")

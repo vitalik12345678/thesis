@@ -41,6 +41,11 @@ public class DocumentFacade {
 
     @Transactional
     public DocumentDTO updateApprovedStatus (Long documentId, Boolean isApproved) {
+        var document = documentService.findById(documentId);
+        var availableApprove = teacherApproveFacade.findApproveStageIdSetByTeacherId(securityFacade.getTeacherByUserId(securityFacade.getCurrentUser().getUserId()).getTeacherId());
+        if (!availableApprove.contains(document.getStage().getStageId())) {
+            throw new ForbiddenActionException("You cannot approve that document");
+        }
         if (isApproved) {
             return documentFactory.toDocumentDTO(documentService.updateApprovedStatus(documentId,isApproved, ApproveStatus.APPROVED));
         } else {
