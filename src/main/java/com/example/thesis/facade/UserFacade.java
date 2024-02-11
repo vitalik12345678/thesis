@@ -104,7 +104,7 @@ public class UserFacade {
         User user = userService.findById(id);
         BeanUtils.copyProperties(dto,user);
         user.setRole(roleFacade.findByIdEntity(dto.getRoleId()));
-        userService.save(user);
+        userService.update(user);
 
         studentFacade.updateHodStudentByUserId(dto,id);
 
@@ -116,7 +116,7 @@ public class UserFacade {
         User user = userService.findById(id);
         BeanUtils.copyProperties(dto,user);
         user.setRole(roleFacade.findByIdEntity(dto.getRoleId()));
-        userService.save(user);
+        userService.update(user);
 
         teacherFacade.updateHodTeacherByUserid(dto,id);
     }
