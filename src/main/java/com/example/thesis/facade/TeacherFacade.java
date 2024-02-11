@@ -41,7 +41,7 @@ public class TeacherFacade {
     }
 
     @Transactional(readOnly = true)
-    public CurrentTeacherDTO getCurrentTeacherDTOByUserId(Long userId) {
+    public TeacherDTO getCurrentTeacherDTOByUserId(Long userId) {
         var teacher = teacherService.findByUserId(userId);
         var dto = teacherFactory.toCurrentTeacherDTO(teacher);
         dto.setAvailableStageIdSet(teacherApproveFacade.findAvailableStageIdsByTeacherId(teacher.getTeacherId()));

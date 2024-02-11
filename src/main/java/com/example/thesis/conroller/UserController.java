@@ -4,7 +4,6 @@ import com.example.thesis.dto.*;
 import com.example.thesis.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +20,12 @@ public class UserController {
 
     @GetMapping(value = "/current")
     @PreAuthorize("permitAll()")
-    public CurrentUserDTO getCurrentUser() {
+    public FullUserInfoDTO getCurrentUser() {
         return userFacade.getCurrentUser();
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+    public ResponseEntity<FullUserInfoDTO> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userFacade.findById(id));
     }
 

@@ -1,6 +1,6 @@
 package com.example.thesis.mapper;
 
-import com.example.thesis.dto.CurrentUserDTO;
+import com.example.thesis.dto.FullUserInfoDTO;
 import com.example.thesis.dto.TeacherRegistrationDTO;
 import com.example.thesis.dto.UserDTO;
 import com.example.thesis.entity.User;
@@ -13,7 +13,7 @@ public interface UserMapper {
     User fromRegistrationDTO(TeacherRegistrationDTO teacherRegistrationDTO);
 
     @Mapping(source = "role",target = "roleDTO")
-    CurrentUserDTO toCurrentUserDTO (User user);
+    FullUserInfoDTO toFullUserInfoDTO(User user);
 
     UserDTO toUserDTO(User id);
 

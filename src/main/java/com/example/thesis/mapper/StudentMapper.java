@@ -14,7 +14,7 @@ public interface StudentMapper {
 
     StudentFileInfoDTO toStudentFileInfoDTO (DocumentDTO documentDTO);
 
-    CurrentStudentDTO toCurrentStudentDTO (Student student);
+    StudentDTO toStudentDTO(Student student);
 
     @Mapping(source = "user.firstName",target = "firstName")
     @Mapping(source = "user.lastName",target = "lastName")

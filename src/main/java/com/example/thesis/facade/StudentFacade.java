@@ -43,9 +43,9 @@ public class StudentFacade {
     }
 
     @Transactional(readOnly = true)
-    public CurrentStudentDTO getCurrentStudentDTOByUserId(Long userId) {
+    public StudentDTO getCurrentStudentDTOByUserId(Long userId) {
         var student = studentService.findByUserId(userId);
-        return studentFactory.toCurrentStudentDTO(student);
+        return studentFactory.toStudentDTO(student);
     }
 
     @Transactional(readOnly = true)
