@@ -3,6 +3,7 @@ package com.example.thesis.facade;
 import com.example.thesis.dto.*;
 import com.example.thesis.entity.User;
 import com.example.thesis.exception.NullObjectException;
+import com.example.thesis.exception.ValidationException;
 import com.example.thesis.factory.UserFactory;
 import com.example.thesis.security.UserPrincipal;
 import com.example.thesis.service.UserService;
@@ -103,8 +104,12 @@ public class UserFacade {
 
         User user = userService.findById(id);
         BeanUtils.copyProperties(dto,user);
-        user.setRole(roleFacade.findByIdEntity(dto.getRoleId()));
+        var role = roleFacade.findByIdEntity(dto.getRoleId());
+        if (role.getName().equals("teacher") || role.getName().equals("HoD") || role.getName().equals("PC")) {
+            throw new ValidationException("Student cannot be teacher ");
+        }
         userService.update(user);
+        user.setRole(role);
 
         studentFacade.updateHodStudentByUserId(dto,id);
 
@@ -115,7 +120,11 @@ public class UserFacade {
 
         User user = userService.findById(id);
         BeanUtils.copyProperties(dto,user);
-        user.setRole(roleFacade.findByIdEntity(dto.getRoleId()));
+        var role = roleFacade.findByIdEntity(dto.getRoleId());
+        if (role.getName().equals("student")) {
+            throw new ValidationException("Teacher cannot be student ");
+        }
+        user.setRole(role);
         userService.update(user);
 
         teacherFacade.updateHodTeacherByUserid(dto,id);

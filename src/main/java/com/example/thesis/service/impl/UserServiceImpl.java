@@ -38,6 +38,22 @@ public class UserServiceImpl extends CRUDServiceImpl<User,Long> implements UserS
     }
 
     @Override
+    @Transactional
+    public User update(User entity) {
+        var anotherUser = findByEmailAndNotUserId(entity.getEmail(),entity.getUserId());
+        if (anotherUser.isPresent()) {
+            throw new ValidationException("User with the same email is exist in system %s".formatted(entity.getEmail()));
+        }
+        return super.update(entity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<User> findByEmailAndNotUserId(String email, Long userId) {
+        return userRepository.findByEmailAndUserIdNot(email, userId);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<User> findByEmailOpt (String email) {
         return userRepository.findByEmail(email);
