@@ -18,9 +18,9 @@ public class EmailFactory {
     }
 
     public EmailDetails toEmailDetails(EmailCsvCreationDTO dtos) {
-        return new EmailDetails(mail,dtos.getEmail(),"Notification about account creation" ,( dtos.getRole().equals("student") ? " it is your token %s and url testStudnet".formatted(dtos.getToken())
+        return new EmailDetails(mail,dtos.getEmail(),"Notification about account creation" ,( dtos.getRole().equals("teacher") ? " it is your token %s and url testTeacher".formatted(dtos.getToken())
                 :
-                "  it is your token %s and url testTeacher".formatted(dtos.getToken())));
+                "  it is your token %s and url testStudent".formatted(dtos.getToken())));
     }
 
 }
