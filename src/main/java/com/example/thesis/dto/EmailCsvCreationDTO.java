@@ -13,5 +13,7 @@ public class EmailCsvCreationDTO {
     private String email;
     @CsvIgnore
     private String token;
+    @CsvBindByName(column = "role")
+    private String role;
 
 }
