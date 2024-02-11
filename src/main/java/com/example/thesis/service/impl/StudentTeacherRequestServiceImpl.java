@@ -64,7 +64,7 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
 
         if (Objects.nonNull(teacher.getGeneralMaster())) {
 
-            if (teacher.getGeneralMaster() <= masterStudentList.size()) {
+            if (teacher.getGeneralMaster() < masterStudentList.size()) {
                 throw new ForbiddenActionException("You cannot send request,teacher limit is over");
             }
 
@@ -72,7 +72,7 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
 
         if (Objects.nonNull(teacher.getGeneralBachelor())) {
 
-            if (teacher.getGeneralBachelor() <= bachelorStudentList.size()) {
+            if (teacher.getGeneralBachelor() < bachelorStudentList.size()) {
                 throw new ForbiddenActionException("You cannot send request, you limit is over");
             }
 
