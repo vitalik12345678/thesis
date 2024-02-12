@@ -13,14 +13,25 @@ public class EmailFactory {
     @Value("${spring.mail.username}")
     private String mail;
 
+    @Value("${front.signUp.teacher}")
+    private String teacherSignUpURL;
+
+    @Value("${front.signUp.student}")
+    private String studentSignUpURL;
+
     public List<EmailDetails> toEmailDetailsList(List<EmailCsvCreationDTO> dtos) {
         return dtos.stream().map(this::toEmailDetails).toList();
     }
 
     public EmailDetails toEmailDetails(EmailCsvCreationDTO dtos) {
-        return new EmailDetails(mail,dtos.getEmail(),"Notification about account creation" ,( dtos.getRole().equals("teacher") ? " it is your token %s and url testTeacher".formatted(dtos.getToken())
-                :
-                "  it is your token %s and url testStudent".formatted(dtos.getToken())));
+        var isTeacher = dtos.getRole().equals("teacher");
+        return new EmailDetails(
+                mail,
+                dtos.getEmail(),
+                "Thesis Tracker Invitation",
+                "<p><strong>You have been invited to join Thesis Tracker:</strong><br/><a href=\"%s\">Click to sign up.</a></p>"
+                        .formatted((isTeacher ? teacherSignUpURL : studentSignUpURL).concat("?token=%s".formatted(dtos.getToken())))
+        );
     }
 
 }
