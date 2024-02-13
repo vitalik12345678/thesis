@@ -13,10 +13,10 @@ public class EmailFactory {
     @Value("${spring.mail.username}")
     private String mail;
 
-    @Value("${front.signUp.teacher}")
+    @Value("${front.signUp.teacher:teacher}")
     private String teacherSignUpURL;
 
-    @Value("${front.signUp.student}")
+    @Value("${front.signUp.student:student}")
     private String studentSignUpURL;
 
     public List<EmailDetails> toEmailDetailsList(List<EmailCsvCreationDTO> dtos) {

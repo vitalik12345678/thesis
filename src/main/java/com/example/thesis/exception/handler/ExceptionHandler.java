@@ -50,6 +50,11 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         return buildException(Collections.singletonList(e.getMessage()),HttpStatus.CONFLICT);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = Throwable.class)
+    public ResponseEntity<?> catchAllExceptions(Throwable e) {
+        return buildException(e.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     private ResponseEntity<Object> buildException(List<String> message, HttpStatus httpStatus){
         var exceptionDetails = new ExceptionDetails();
 
@@ -82,6 +87,11 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleExceptionInternal (Exception ex, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
         return buildException(ex.getMessage(),HttpStatus.valueOf(statusCode.value()));
+    }
+
+    @Override
+    protected ResponseEntity<Object> createResponseEntity(Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+        return super.createResponseEntity(body, headers, statusCode, request);
     }
 
 }

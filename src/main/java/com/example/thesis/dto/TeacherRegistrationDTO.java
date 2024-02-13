@@ -22,4 +22,7 @@ public class TeacherRegistrationDTO {
     @NotBlank(message = "password mustn't be blank")
     private String password;
 
+    @NotBlank(message = "token mustn't be blank")
+    private String token;
+
 }

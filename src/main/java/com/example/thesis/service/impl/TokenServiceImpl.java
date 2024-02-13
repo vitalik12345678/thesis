@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +42,17 @@ public class TokenServiceImpl extends CRUDServiceImpl<UserToken,Long> implements
         , () -> tokenRepository.save(item)) );
 
         return tokenRepository.findAllByEmailIn(userTokens.stream().map(UserToken::getToken).toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<UserToken> findByTokenAndEmailOpt(String token, String email) {
+        return tokenRepository.findByTokenAndEmail(token,email);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByToken(String token) {
+        tokenRepository.deleteByToken(token);
     }
 }

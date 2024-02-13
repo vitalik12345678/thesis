@@ -25,6 +25,7 @@ public class UserFacade {
     private final RoleFacade roleFacade;
     private final TeacherFacade teacherFacade;
     private final StudentFacade studentFacade;
+    private final TokenFacade tokenFacade;
 
     @Transactional
     public void saveTeacher (TeacherRegistrationDTO teacherRegistrationDTO) {
@@ -36,6 +37,7 @@ public class UserFacade {
     public void saveTeacher (TeacherRegistrationHODDTO teacherRegistrationHODDTO) {
         var user = userFactory.fromRegistrationDTO(teacherRegistrationHODDTO);
         user = userService.saveTeacher(user);
+        tokenFacade.deleteByToken(teacherRegistrationHODDTO.getToken());
         teacherFacade.create(teacherRegistrationHODDTO, user);
     }
 
@@ -43,6 +45,7 @@ public class UserFacade {
     public void saveStudent (StudentRegistrationDTO studentRegistrationDTO) {
         var user = userFactory.fromRegistrationDTO(studentRegistrationDTO);
         user = userService.saveStudent(user);
+        tokenFacade.deleteByToken(studentRegistrationDTO.getToken());
         studentFacade.create(studentRegistrationDTO,user);
     }
 
