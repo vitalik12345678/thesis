@@ -9,6 +9,5 @@ import lombok.Setter;
 public class CommentCreateDTO {
     
     private String text;
-    private ApproveDirection fromType;
-    
+
 }
