@@ -44,7 +44,7 @@ public class StudentController {
 
     @GetMapping(value = "/hod-info")
     @PreAuthorize("hasAnyAuthority('HoD','PS')")
-    public ResponseEntity<List<DocumentDTO>> getHodStudentInfo(){
+    public ResponseEntity<List<HodUserInfoDTO>> getHodStudentInfo(){
         return ResponseEntity.ok(studentFacade.getHodInfoList());
     }
 

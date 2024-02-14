@@ -6,20 +6,20 @@ import com.example.thesis.entity.Student;
 import com.example.thesis.entity.User;
 import com.example.thesis.entity.enums.ApproveDirection;
 import com.example.thesis.factory.StudentFactory;
+import com.example.thesis.factory.UserFactory;
 import com.example.thesis.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
 public class StudentFacade {
 
     private final StageFacade stageFacade;
+    private final UserFactory userFactory;
     private final StudentFactory studentFactory;
     private final StudentService studentService;
     private final DocumentFacade documentFacade;
@@ -99,16 +99,23 @@ public class StudentFacade {
     }
 
     @Transactional(readOnly = true)
-    public List<DocumentDTO> getHodInfoList() {
+    public List<HodUserInfoDTO> getHodInfoList() {
 
         var students = studentService.findAll();
-        var lastDocument = students.stream()
-                .map(
-                        item -> item.getDocumentList().stream()
-                                .max(Comparator.comparing((Document a) -> a.getStage().getSerialOrder())
-                                        .thenComparing(Document::getCreatedDate)))
-                .filter(Optional::isPresent).map(item -> studentFactory.toHodInfoDto(item.get())).toList();
 
-        return lastDocument;
+        return students.stream()
+                .map(
+                        item -> Map.entry(item, item.getDocumentList().stream()
+                                .max(Comparator.comparing((Document a) -> a.getStage().getSerialOrder())
+                                        .thenComparing(Document::getCreatedDate))))
+                .filter(item -> item.getValue().isPresent())
+                .map(item -> {
+                    var lastDocument = studentFactory.toHodInfoDto(item.getValue().get());
+                    var res = new HodUserInfoDTO();
+                    res.setUserDTO(userFactory.toUserDTO(item.getKey().getUser()));
+                    res.setStudentDTO(studentFactory.toStudentDTO(item.getKey()));
+                    res.setDocumentDTO(lastDocument);
+                    return res;
+                }).toList();
     }
 }
