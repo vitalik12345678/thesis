@@ -31,12 +31,16 @@ public class TeacherFacade {
     public void create(TeacherRegistrationDTO teacherRegistrationDTO, User user) {
         var teacher = teacherFactory.fromTeacherRegistrationDTO(teacherRegistrationDTO);
         teacher.setUser(user);
+        teacher.setGeneralBachelor(3L);
+        teacher.setGeneralMaster(1L);
         teacherService.save(teacher);
     }
     @Transactional
     public void create(TeacherRegistrationHODDTO teacherRegistrationDTO, User user) {
         var teacher = teacherFactory.fromTeacherRegistrationHODDTO(teacherRegistrationDTO);
         teacher.setUser(user);
+        teacher.setGeneralBachelor(teacherRegistrationDTO.getGeneralBachelor());
+        teacher.setGeneralMaster(teacherRegistrationDTO.getGeneralMaster());
         teacherService.save(teacher);
     }
 
