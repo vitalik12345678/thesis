@@ -24,10 +24,12 @@ public class CommentController {
         return ResponseEntity.ok(commentFacade.findAllCommentListByDocumentId(documentId));
     }
 
-    @PostMapping(value = "/{documentId}/{studentId}/{teacherId}/{stageId}")
+    @PostMapping(value = "/{documentId}/{userId}")
     @PermitAll()
-    public ResponseEntity<?> createComment(@RequestBody CommentCreateDTO commentCreateDTO, @PathVariable Long documentId, @PathVariable Long studentId, @PathVariable Long teacherId,@PathVariable Long stageId) {
-        commentFacade.create(commentCreateDTO,documentId,teacherId,studentId,stageId);
+    public ResponseEntity<?> createComment(@RequestBody CommentCreateDTO commentCreateDTO,
+                                           @PathVariable Long documentId,
+                                           @PathVariable Long userId) {
+        commentFacade.create(commentCreateDTO,documentId,userId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

@@ -11,11 +11,7 @@ import java.time.LocalDateTime;
 public class CommentDTO {
 
     private String text;
-    private ApproveDirection fromType;
+    private Long userId;
     private LocalDateTime createdDate;
-    private StageDTO stageDTO;
-/*    private StudentRequestDTO studentDTO;
-    private TeacherRequestDTO teacherDTO;
-    private DocumentDTO documentDTO;*/
 
 }

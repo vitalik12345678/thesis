@@ -1,6 +1,7 @@
 package com.example.thesis.service.impl;
 
 import com.example.thesis.entity.Comment;
+import com.example.thesis.facade.UserFacade;
 import com.example.thesis.repository.CommentRepository;
 import com.example.thesis.service.*;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Comment,Long> implements
 
     private final CommentRepository commentRepository;
     private final DocumentService documentService;
-    private final TeacherService teacherService;
-    private final StudentService studentService;
-    private final StageService stageService;
+    private final UserService userService;
 
     @Override
     protected JpaRepository<Comment, Long> getRepository () {
@@ -34,13 +33,11 @@ public class CommentServiceImpl extends CRUDServiceImpl<Comment,Long> implements
 
     @Override
     @Transactional
-    public Comment add (Comment comment, Long documentId, Long teacherId, Long studentId,Long stageId) {
+    public Comment add (Comment comment, Long documentId, Long userId) {
         comment.setCreatedDate(LocalDateTime.now());
         comment = this.save(comment);
         comment.setDocument(documentService.findById(documentId));
-        comment.setStudent(studentService.findById(studentId));
-        comment.setTeacher(teacherService.findById(teacherId));
-        comment.setStage(stageService.findById(stageId));
+        comment.setUser(userService.findById(userId));
         return comment;
     }
 

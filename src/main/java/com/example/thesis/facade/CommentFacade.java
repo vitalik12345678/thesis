@@ -27,11 +27,11 @@ public class CommentFacade {
     }
 
     @Transactional
-    public CommentDTO create (CommentCreateDTO commentCreateDTO, Long documentId, Long teacherId, Long studentId,Long stageId) {
+    public CommentDTO create (CommentCreateDTO commentCreateDTO, Long documentId, Long userId) {
 
         var comment = commentFactory.toComment(commentCreateDTO);
 
-        return commentFactory.toCommentDTO(commentService.add(comment,documentId,teacherId,studentId,stageId));
+        return commentFactory.toCommentDTO(commentService.add(comment,documentId,userId));
 
     }
 

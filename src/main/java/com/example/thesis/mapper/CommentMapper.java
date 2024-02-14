@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CommentMapper {
 
-    @Mapping(source = "stage",target = "stageDTO")
+    @Mapping(source = "user.userId",target = "userId")
     CommentDTO toCommentDTO (Comment comment);
 
     List<CommentDTO> toCommentDTOList (List<Comment> commentList);

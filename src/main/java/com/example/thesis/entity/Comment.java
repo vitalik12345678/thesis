@@ -24,24 +24,13 @@ public class Comment implements EntityWithId<Long> {
     private String text;
 
     @ManyToOne
-    @JoinColumn(name = "student_id",referencedColumnName = "student_id")
-    private Student student;
-
-    @ManyToOne
-    @JoinColumn(name = "teacher",referencedColumnName = "teacher_id")
-    private Teacher teacher;
+    @JoinColumn(name = "user_id",referencedColumnName = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "document_id",referencedColumnName = "document_id")
     private Document document;
 
-    @ManyToOne
-    @JoinColumn(name = "stage_id",referencedColumnName = "stage_id")
-    private Stage stage;
-
-    @Column(name = "from_type")
-    @Enumerated(EnumType.STRING)
-    private ApproveDirection fromType;
 
     @Column(name = "created_date")
     @CreatedDate
