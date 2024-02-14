@@ -77,7 +77,7 @@ public class TeacherFacade {
         Map<Long, Optional<Document>> studentStageDTOMap = studentList.stream().collect(Collectors.toMap(
                 key -> key.getStudent().getStudentId(),
                 value -> value.getStudent().getDocumentList().
-                        stream().max(Comparator.comparing(Document::getCreatedDate))
+                        stream().max(Comparator.comparing(Document::getCreatedDate).thenComparing(object -> object.getStage().getSerialOrder()))
 
         ));
         currentStudentDTOList.forEach(currentAdviserStudentDTO -> {
