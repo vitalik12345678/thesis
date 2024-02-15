@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -44,7 +45,7 @@ public class ThemeFacade {
                 themeService.update(entity);
             }
             case "student", "teacher" -> {
-                if (entity.getDeadLineDate().isAfter(LocalDate.now())) {
+                if (Objects.nonNull(entity.getDeadLineDate()) && entity.getDeadLineDate().isAfter(LocalDate.now())) {
                     throw new ForbiddenActionException("Deadline is due");
                 }
                 entity.setTheme(theme);
