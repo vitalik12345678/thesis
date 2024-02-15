@@ -94,14 +94,9 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         return repository.findAllByTeacherIdAndApproved(teacher.getTeacherId(),approve);
     }
 
+
     private Optional<TeacherStudentRequest> findByStudentAndTeacherAndStatusOpt (Student student, Teacher teacher, boolean approve) {
         return repository.findByStudentIdAndApprovedAndTeacherId(student.getStudentId(), approve,teacher.getTeacherId());
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public TeacherStudentRequest findByTeacherAndStudentId (Long teacherId, Long studentId) {
-        return repository.findByTeacherIdAndStudentId(teacherId,studentId).orElseThrow( () -> new NotExistObjectException("Request does not  exist") );
     }
 
     @Override
@@ -159,5 +154,10 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         repository.save(request);
 
         return request;
+    }
+
+    @Override
+    public void updateThemeByStudentId(Long studentId, String theme) {
+        repository.updateThemeByStudentId(studentId,theme);
     }
 }

@@ -32,7 +32,7 @@ CREATE TABLE comment
 );
 
 ALTER TABLE theme
-    ADD COLUMN deadline_data DATE;
+    ADD COLUMN deadline_date DATE;
 
 CREATE TABLE user_token
 (

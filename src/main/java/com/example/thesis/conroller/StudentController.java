@@ -62,5 +62,9 @@ public class StudentController {
                 .getUserId())));
     }
 
+    @GetMapping(value = "/theme/{studentId}")
+    public ResponseEntity<ThemeDTO> getThemeDTOByUserId(@PathVariable Long studentId) {
+        return ResponseEntity.ok(studentFacade.getThemeByStudentId(studentId));
+    }
 
 }

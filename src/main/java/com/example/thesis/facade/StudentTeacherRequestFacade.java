@@ -21,7 +21,6 @@ public class StudentTeacherRequestFacade {
     private final StudentTeacherRequestFactory requestFactory;
     private final StudentTeacherRequestService requestService;
     private final SecurityFacade securityFacade;
-    private final ThemeFacade themeFacade;
 
     public StudentTeacherRequestProfileDTO createRequest(Long studentId, Long teacherId, TeacherStudentRequestCreateDTO createDTO) {
         return requestFactory.toStudentTeacherRequestProfileDTO( requestService.add(studentId,teacherId,createDTO));
@@ -60,21 +59,13 @@ public class StudentTeacherRequestFacade {
         return true;
     }
 
-    @Transactional
-    public void headChangeStatus (Long requestId, Boolean approved) {
-        var request = requestService.findById(requestId);
-        request.setHeadApprove(approved);
-        if (approved) {
-            requestService.save(request);
-            themeFacade.create(request.getLanguage(),request.getTheme(),request.getStudent());
-        } else {
-            requestService.delete(requestId);
-            request.getStudent().setAdviser(null);
-        }
-    }
 
     @Transactional(readOnly = true)
     public List<HoDRequestDTO> findAllRequestList () {
         return requestFactory.toHoDRequestDTOList(requestService.findAll());
+    }
+
+    public void updateThemeByStudentId(Long studentId, String theme) {
+        requestService.updateThemeByStudentId(studentId,theme);
     }
 }

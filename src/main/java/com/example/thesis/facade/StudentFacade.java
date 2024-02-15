@@ -118,9 +118,8 @@ public class StudentFacade {
                     return res;
                 }).toList();
     }
-
     @Transactional(readOnly = true)
-    public Long getThemeIdByUserId(Long userId) {
-        return studentService.findById(userId).getTheme().getThemeId();
+    public ThemeDTO getThemeByStudentId(Long studentId) {
+        return studentFactory.toThemeDTO(studentService.findById(studentId));
     }
 }

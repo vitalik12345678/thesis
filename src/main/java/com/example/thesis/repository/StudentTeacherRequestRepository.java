@@ -4,6 +4,8 @@ import com.example.thesis.entity.Student;
 import com.example.thesis.entity.Teacher;
 import com.example.thesis.entity.TeacherStudentRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +20,8 @@ public interface StudentTeacherRequestRepository extends JpaRepository<TeacherSt
 
     List<TeacherStudentRequest> findAllByStudent (Student student);
     List<TeacherStudentRequest> findAllByTeacherIdAndApproved(Long teacherId,Boolean approve);
+
+    @Query(value = " update teacher_student_request SET theme = ?2 WHERE student_id = ?1 AND approved = true ",nativeQuery = true)
+    @Modifying
+    void updateThemeByStudentId(Long studentId, String theme);
 }

@@ -50,4 +50,8 @@ public class StudentFactory {
     public DocumentDTO toHodInfoDto(Document document) {
         return entityMapper.toDocumentDTO(document);
     }
+
+    public ThemeDTO toThemeDTO(Student student) {
+        return entityMapper.toThemeDTO(student.getTheme());
+    }
 }

@@ -12,9 +12,6 @@ import java.util.Optional;
 public interface StudentTeacherRequestService extends CRUDService<TeacherStudentRequest,Long>{
     TeacherStudentRequest add (Long studentId, Long teacherId, TeacherStudentRequestCreateDTO createDTO);
 
-    @Transactional
-    TeacherStudentRequest findByTeacherAndStudentId (Long teacherId, Long studentId);
-
     @Transactional(readOnly = true)
     Optional<TeacherStudentRequest> findByTeacherAndStudentIdOpt (Long teacherId, Long studentId);
 
@@ -24,4 +21,6 @@ public interface StudentTeacherRequestService extends CRUDService<TeacherStudent
     List<TeacherStudentRequest> findByStudent (Student student);
 
     TeacherStudentRequest approve (TeacherStudentRequest request);
+
+    void updateThemeByStudentId(Long studentId, String theme);
 }
