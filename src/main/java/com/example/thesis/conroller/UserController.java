@@ -1,6 +1,7 @@
 package com.example.thesis.conroller;
 
 import com.example.thesis.dto.*;
+import com.example.thesis.exception.ForbiddenActionException;
 import com.example.thesis.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,8 +40,12 @@ public class UserController {
     @DeleteMapping(value = "/{id}")
     @PreAuthorize("hasAnyAuthority('HoD')")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        userFacade.deleteById(id);
-        return ResponseEntity.ok().build();
+        try {
+            userFacade.deleteById(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            throw new ForbiddenActionException("User has relations so we cannot delete it");
+        }
     }
 
     @PostMapping(value = "/student")
