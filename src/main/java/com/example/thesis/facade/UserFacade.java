@@ -58,15 +58,12 @@ public class UserFacade {
         }
         var fullUserInfoDTO = userFactory.toFullUserInfoDTO(user);
 
-        switch (user.getRole().getName()) {
-            case "teacher" -> {
-                var currentTeacherDTO = teacherFacade.getCurrentTeacherDTOByUserId(user.getUserId());
-                fullUserInfoDTO.setTeacherDTO(currentTeacherDTO);
-            }
-            case "student" -> {
-                var currentStudentDTO = studentFacade.getCurrentStudentDTOByUserId(user.getUserId());
-                fullUserInfoDTO.setStudentDTO(currentStudentDTO);
-            }
+        if (user.getRole().getName().equals("student")) {
+            var currentStudentDTO = studentFacade.getCurrentStudentDTOByUserId(user.getUserId());
+            fullUserInfoDTO.setStudentDTO(currentStudentDTO);
+        } else {
+            var currentTeacherDTO = teacherFacade.getCurrentTeacherDTOByUserId(user.getUserId());
+            fullUserInfoDTO.setTeacherDTO(currentTeacherDTO);
         }
 
         return fullUserInfoDTO;

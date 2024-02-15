@@ -25,13 +25,13 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasAnyAuthority('HoD')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<FullUserInfoDTO> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userFacade.findById(id));
     }
 
     @GetMapping(value = "/all")
-    @PreAuthorize("hasAnyAuthority('HoD')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<List<UserDTO>> getAllUsers(){
         return ResponseEntity.ok(userFacade.findAll());
     }
