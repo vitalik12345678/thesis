@@ -2,12 +2,15 @@ package com.example.thesis.exception.handler;
 
 import com.example.thesis.exception.*;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -44,15 +47,14 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         return buildException(Collections.singletonList(e.getMessage()),HttpStatus.CONFLICT);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler({ JwtException.class })
+    public ResponseEntity<?> handleAuthenticationException(JwtException ex) {
+        return buildException(ex.getMessage(),HttpStatus.UNAUTHORIZED);
+    }
 
     @org.springframework.web.bind.annotation.ExceptionHandler( value = {UnAvailableDeleteException.class})
     public ResponseEntity<?> handleNotExistObjectException(UnAvailableDeleteException e) {
         return buildException(Collections.singletonList(e.getMessage()),HttpStatus.CONFLICT);
-    }
-
-    @org.springframework.web.bind.annotation.ExceptionHandler(value = Throwable.class)
-    public ResponseEntity<?> catchAllExceptions(Throwable e) {
-        return buildException(e.getLocalizedMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private ResponseEntity<Object> buildException(List<String> message, HttpStatus httpStatus){
@@ -91,7 +93,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> createResponseEntity(Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
-        return super.createResponseEntity(body, headers, statusCode, request);
+        return buildException(body.toString(),HttpStatus.valueOf( statusCode.value()));
     }
 
 }
