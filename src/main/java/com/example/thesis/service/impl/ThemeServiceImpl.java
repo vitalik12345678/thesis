@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ThemeServiceImpl extends CRUDServiceImpl<Theme,Long> implements ThemeService  {
@@ -31,5 +33,11 @@ public class ThemeServiceImpl extends CRUDServiceImpl<Theme,Long> implements The
         newTheme.setStudent(student);
         student.setTheme(newTheme);
         return newTheme;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Long> findThemeIdByUserId(Long studentId) {
+        return Optional.ofNullable(themeRepository.findThemeIdByUserId(studentId));
     }
 }
