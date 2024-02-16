@@ -2,6 +2,7 @@ package com.example.thesis.config;
 
 import com.example.thesis.security.jwt.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,9 +35,12 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final JwtAuthFilter jwtAthFilter;
 
+    @Value("${front.baseUrl}")
+    private String frontBaseUrl;
+
     @Bean
     public HeaderWriter contentSecurityPolicyHeaderWriter() {
-        return new StaticHeadersWriter("Content-Security-Policy", "frame-ancestors 'self' localhost:5173");
+        return new StaticHeadersWriter("Content-Security-Policy", "frame-ancestors 'self' localhost:5173 %s".formatted(frontBaseUrl));
     }
 
     @Bean
