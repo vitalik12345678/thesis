@@ -77,13 +77,14 @@ public class TeacherApproveServiceImpl extends CRUDServiceImpl<TeacherApprove, L
     @Transactional
     public void processUnBundling(Long stageId,Long roleId) {
 
-        Stage stage = stageService.findById(stageId);
         Role role = roleService.findById(roleId);
 
         var teachers = findTeachersByStageId(stageId);
-        var filteredTeachers = teachers.stream().filter( item -> item.getTeacher().getUser().getRole().getRoleId().equals(role.getRoleId())).toList();
+        var filteredTeachers = teachers.stream()
+                .filter( item -> item.getTeacher().getUser().getRole().getRoleId().equals(role.getRoleId()))
+                .toList();
 
-        deleteAll(teachers);
+        deleteAll(filteredTeachers);
     }
 
     @Override
