@@ -65,7 +65,22 @@ public class StudentTeacherRequestFacade {
         return requestFactory.toHoDRequestDTOList(requestService.findAll());
     }
 
+    @Transactional
     public void updateThemeByStudentId(Long studentId, String theme) {
         requestService.updateThemeByStudentId(studentId,theme);
+    }
+
+    @Transactional
+    public void updateRequest(Long studentId, Long teacherId) {
+
+        requestService.changeRequestByStudentId(studentId,teacherId);
+
+    }
+
+    @Transactional
+    public void createApprovedRequest(Long studentId, Long teacherId, TeacherStudentRequestCreateDTO dto) {
+        var requestDTO = createRequest(studentId,teacherId,dto);
+        var request = requestService.findById(requestDTO.getRequestId());
+        requestService.approve(request);
     }
 }

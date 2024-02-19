@@ -23,4 +23,6 @@ public interface StudentTeacherRequestService extends CRUDService<TeacherStudent
     TeacherStudentRequest approve (TeacherStudentRequest request);
 
     void updateThemeByStudentId(Long studentId, String theme);
+
+    void changeRequestByStudentId(Long studentId, Long teacherId);
 }

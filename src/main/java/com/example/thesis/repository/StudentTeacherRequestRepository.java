@@ -24,4 +24,8 @@ public interface StudentTeacherRequestRepository extends JpaRepository<TeacherSt
     @Query(value = " update teacher_student_request SET theme = ?2 WHERE student_id = ?1 AND approved = true ",nativeQuery = true)
     @Modifying
     void updateThemeByStudentId(Long studentId, String theme);
+
+    @Query(value = " update teacher_student_request SET teacher_id = ?2 WHERE student_id = ?1 AND approved = true ",nativeQuery = true)
+    @Modifying
+    void updateTeacherIdByStudentId(Long studentId, Long teacherId);
 }

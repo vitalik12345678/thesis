@@ -59,10 +59,18 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
 
         var teacherStudentRequestList = findAllByTeacherAndApprove(teacher,true);
 
-        var bachelorStudentList = teacherStudentRequestList.stream().filter( item -> item.getStudent().getDegree().equals(Degree.BACHELOR)).toList();
-        var masterStudentList = teacherStudentRequestList.stream().filter( item -> item.getStudent().getDegree().equals(Degree.MASTER)).toList();
+        var bachelorStudentList = teacherStudentRequestList.stream().filter( item -> item.getStudent().getDegree().equals(Degree.BACHELOR) && item.getApproved()).toList();
+        var masterStudentList = teacherStudentRequestList.stream().filter( item -> item.getStudent().getDegree().equals(Degree.MASTER) && item.getApproved()).toList();
+
+        if (Objects.isNull(teacher.getGeneralMaster()) && Objects.isNull(teacher.getGeneralBachelor())) {
+            throw new ForbiddenActionException("You cannot send request,teacher doesn't have any limits");
+        }
 
         if (Objects.nonNull(teacher.getGeneralMaster())) {
+
+            if (teacher.getGeneralMaster() == 0) {
+                throw new ForbiddenActionException("You cannot send request,teacher doesn't have any master limits");
+            }
 
             if (teacher.getGeneralMaster() < masterStudentList.size()) {
                 throw new ForbiddenActionException("You cannot send request,teacher limit is over");
@@ -71,6 +79,10 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         }
 
         if (Objects.nonNull(teacher.getGeneralBachelor())) {
+
+            if (teacher.getGeneralBachelor() == 0) {
+                throw new ForbiddenActionException("You cannot send request,teacher doesn't have any bachelor limits");
+            }
 
             if (teacher.getGeneralBachelor() < bachelorStudentList.size()) {
                 throw new ForbiddenActionException("You cannot send request, you limit is over");
@@ -128,7 +140,55 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
         var studentList = findByTeacher(teacher).stream().filter(TeacherStudentRequest::getApproved)
                 .filter(item -> item.getStudent().getDegree().equals(student.getDegree())).toList();
 
+        if (Objects.isNull(teacher.getGeneralMaster()) && Objects.isNull(teacher.getGeneralBachelor())) {
+            throw new ForbiddenActionException("You cannot send request,teacher doesn't have any limits");
+        }
 
+        switch (student.getDegree()) {
+            case MASTER -> {
+                if (Objects.isNull(teacher.getGeneralMaster())) {
+                    throw new ForbiddenActionException("Teacher cannot have any masters' students");
+                }
+                if (studentList.size() > teacher.getGeneralMaster()) {
+                    throw new ForbiddenActionException("Teacher overloaded by masters");
+                }
+            }
+            case BACHELOR -> {
+                if (Objects.isNull(teacher.getGeneralBachelor())) {
+                    throw new ForbiddenActionException("Teacher cannot have any bachelors' students");
+                }
+                if (studentList.size() > teacher.getGeneralBachelor()) {
+                    throw new ForbiddenActionException("Teacher overloaded by bachelors");
+                }
+            }
+        }
+        var theme = themeService.createTheme(request.getLanguage(),request.getTheme(),request.getStudent());
+        student.setAdviser(teacher);
+        student.setTheme(theme);
+        request.setApproved(true);
+        repository.save(request);
+
+        return request;
+    }
+
+    @Override
+    @Transactional
+    public void updateThemeByStudentId(Long studentId, String theme) {
+        repository.updateThemeByStudentId(studentId,theme);
+    }
+
+    @Override
+    @Transactional
+    public void changeRequestByStudentId(Long studentId, Long teacherId) {
+        var requestOpt = findByTeacherAndStudentIdOpt(studentId,teacherId);
+        if (requestOpt.isPresent()) {
+            throw new ExistException("Request between them exists");
+        }
+
+        var student = studentService.findById(studentId);
+        var teacher = teacherService.findById(teacherId);
+        var studentList = findByTeacher(teacher).stream().filter(TeacherStudentRequest::getApproved)
+                .filter(item -> item.getStudent().getDegree().equals(student.getDegree())).toList();
 
         switch (student.getDegree()) {
             case MASTER -> {
@@ -148,16 +208,8 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
                 }
             }
         }
-        var theme = themeService.createTheme(request.getLanguage(),request.getTheme(),request.getStudent());
+
         student.setAdviser(teacher);
-        student.setTheme(theme);
-        repository.save(request);
-
-        return request;
-    }
-
-    @Override
-    public void updateThemeByStudentId(Long studentId, String theme) {
-        repository.updateThemeByStudentId(studentId,theme);
+        repository.updateTeacherIdByStudentId(studentId,teacherId);
     }
 }
