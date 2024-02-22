@@ -47,7 +47,9 @@ public class FileController {
     }
 
     @PutMapping("/{documentId}")
+/*
     @PreAuthorize("hasAnyAuthority('teacher','PS','HoD')")
+*/
     public ResponseEntity<?> updateApprovedStatus(@PathVariable Long documentId,
                                                   @RequestParam Boolean isApproved) {
         return ResponseEntity.ok(documentFacade.updateApprovedStatus(documentId,isApproved));

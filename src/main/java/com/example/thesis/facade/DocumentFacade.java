@@ -22,6 +22,7 @@ public class DocumentFacade {
     private final DocumentService documentService;
     private final TeacherApproveFacade teacherApproveFacade;
     private final SecurityFacade securityFacade;
+    private final RoleStageApproveFacade roleStageApproveFacade;
 
     @Transactional
     public DocumentDTO downloadFile(MultipartFile file, Long studentId) {
@@ -41,9 +42,11 @@ public class DocumentFacade {
 
     @Transactional
     public DocumentDTO updateApprovedStatus (Long documentId, Boolean isApproved) {
-        var document = documentService.findById(documentId);
+        var roleId = securityFacade.getCurrentUser().getRole().getRoleId();
+        var stageId = documentService.findById(documentId).getStage().getStageId();
+        var stageApproves =  roleStageApproveFacade.findStageIdsByRoleId(roleId);
         var availableApprove = teacherApproveFacade.findApproveStageIdSetByTeacherId(securityFacade.getTeacherByUserId(securityFacade.getCurrentUser().getUserId()).getTeacherId());
-        if (!availableApprove.contains(document.getStage().getStageId())) {
+        if (!availableApprove.contains(stageId) && !stageApproves.contains(stageId)  ) {
             throw new ForbiddenActionException("You cannot approve that document");
         }
         if (isApproved) {

@@ -45,9 +45,7 @@ public class StudentTeacherRequestController {
     }
 
     @PutMapping("/hod/{teacherId}/{studentId}")
-/*
     @PreAuthorize("hasAnyAuthority('HoD','PS')")
-*/
     public ResponseEntity<Void> editHodRelation(@PathVariable Long studentId, @PathVariable Long teacherId) {
         requestFacade.updateRequest(studentId,teacherId);
         return ResponseEntity.ok().build();

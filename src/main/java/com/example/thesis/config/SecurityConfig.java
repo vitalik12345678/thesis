@@ -35,7 +35,7 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final JwtAuthFilter jwtAthFilter;
 
-    @Value("${front.baseUrl}")
+    @Value("${front.baseUrl:test}")
     private String frontBaseUrl;
 
     @Bean

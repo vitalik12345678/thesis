@@ -41,4 +41,13 @@ CREATE TABLE user_token
     email TEXT UNIQUE,
     token TEXT
 
+);
+
+CREATE TABLE role_stage_approve (
+
+    id BIGSERIAL PRIMARY KEY ,
+    role_id BIGINT REFERENCES role(role_id),
+    stage_id BIGINT REFERENCES stage(stage_id),
+    CONSTRAINT unique_pair UNIQUE (role_id,stage_id)
+
 )
