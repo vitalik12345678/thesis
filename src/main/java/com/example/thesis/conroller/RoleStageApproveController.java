@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/approve")
@@ -31,6 +32,10 @@ public class RoleStageApproveController {
         return ResponseEntity.ok(roleStageApproveFacade.findAll());
     }
 
-
+    @DeleteMapping(value = "/{roleId}/{stageId}")
+    @PreAuthorize("hasAnyAuthority('HoD','PS')")
+    public ResponseEntity<Optional<RoleStageApprove>> deleteApprove(@PathVariable Long roleId, @PathVariable Long stageId) {
+        return ResponseEntity.ok(roleStageApproveFacade.delete(roleId,stageId));
+    }
 
 }

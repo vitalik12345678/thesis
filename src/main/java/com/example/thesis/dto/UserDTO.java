@@ -9,6 +9,8 @@ public class UserDTO {
 
     private Long userId;
 
+    private RoleDTO role;
+
     private String firstName;
 
     private String lastName;

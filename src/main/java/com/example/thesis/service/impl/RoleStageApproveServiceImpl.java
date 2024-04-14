@@ -1,5 +1,6 @@
 package com.example.thesis.service.impl;
 
+import com.example.thesis.dto.RoleStageApproveDTO;
 import com.example.thesis.entity.RoleStageApprove;
 import com.example.thesis.exception.ExistException;
 import com.example.thesis.repository.RoleStageApproveRepository;
@@ -39,6 +40,21 @@ public class RoleStageApproveServiceImpl extends CRUDServiceImpl<RoleStageApprov
         approve.setRole(roleService.findById(roleId));
         approve.setStage(stageService.findById(stageId));
         return save(approve);
+    }
+
+    @Override
+    @Transactional
+    public Optional<RoleStageApprove> delete(Long roleId, Long stageId) {
+        var roleStageApproval = findByRoleAndStageIdsOpt(roleId, stageId);
+        roleStageApproval.ifPresentOrElse(
+                approval -> {
+                    delete(approval.getId());
+                },
+                () -> {
+                    throw new ExistException("Role doesn't have approval for that stage ");
+                }
+        );
+        return roleStageApproval;
     }
 
     @Override

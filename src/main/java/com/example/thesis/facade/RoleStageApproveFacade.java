@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -22,6 +23,11 @@ public class RoleStageApproveFacade {
     @Transactional
     public RoleStageApproveDTO create(Long roleId, Long stageId) {
         return factory.roleStageApproveDTO(roleStageApproveService.create(roleId,stageId));
+    }
+
+    @Transactional
+    public Optional<RoleStageApprove> delete(Long roleId, Long stageId) {
+        return roleStageApproveService.delete(roleId, stageId);
     }
 
     @Transactional(readOnly = true)

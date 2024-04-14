@@ -11,7 +11,7 @@
     <groupId>com.example</groupId>
     <artifactId>thesis</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>thesis</name>
     <description>thesis</description>
     <properties>
