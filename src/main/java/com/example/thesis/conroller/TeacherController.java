@@ -26,7 +26,7 @@ public class TeacherController {
     }
 
     @PostMapping(value = "request/{studentId}")
-    @PreAuthorize("hasAnyAuthority('teacher')")
+    @PreAuthorize("hasAnyAuthority('teacher', 'PS', 'HoD')")
     public ResponseEntity<?> createStudentTeacherRequest(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                                          @RequestBody TeacherStudentRequestCreateDTO createDTO,
                                                          @PathVariable Long studentId) {
@@ -36,14 +36,14 @@ public class TeacherController {
     }
 
     @GetMapping(value = "/request")
-    @PreAuthorize("hasAuthority('teacher')")
+    @PreAuthorize("hasAnyAuthority('teacher', 'PS', 'HoD')")
     public ResponseEntity<?> getTeacherRequestListByJwtToken(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         return ResponseEntity.ok(teacherFacade.getTeacherRequestList(securityFacade.getTeacherByUserId(userPrincipal.getUser()
                 .getUserId())));
     }
 
     @GetMapping(value = "/current-student")
-    @PreAuthorize("hasAuthority('teacher')")
+    @PreAuthorize("hasAnyAuthority('teacher', 'PS', 'HoD')")
     public ResponseEntity<?> getCurrentStudentList(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         return ResponseEntity.ok(teacherFacade.findCurrentStudentList(securityFacade.getTeacherByUserId(userPrincipal.getUser()
                 .getUserId())));

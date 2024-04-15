@@ -52,7 +52,7 @@ public class StudentTeacherRequestController {
     }
 
     @GetMapping("/head-department/all")
-    @PreAuthorize("hasAuthority('HoD')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<List<HoDRequestDTO>> findAllRequests() {
         return ResponseEntity.ok( requestFacade.findAllRequestList() );
     }
