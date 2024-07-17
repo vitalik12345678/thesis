@@ -73,15 +73,12 @@ public class UserFacade {
     public FullUserInfoDTO findById(Long id) {
         var fullUserInfoDTO = userFactory.toFullUserInfoDTO(userService.findById(id));
 
-        switch (fullUserInfoDTO.getRoleDTO().getName()) {
-            case "teacher" -> {
-                var currentTeacherDTO = teacherFacade.getCurrentTeacherDTOByUserId(fullUserInfoDTO.getUserId());
-                fullUserInfoDTO.setTeacherDTO(currentTeacherDTO);
-            }
-            case "student" -> {
-                var currentStudentDTO = studentFacade.getCurrentStudentDTOByUserId(fullUserInfoDTO.getUserId());
-                fullUserInfoDTO.setStudentDTO(currentStudentDTO);
-            }
+        if (fullUserInfoDTO.getRoleDTO().getName().equals("student")) {
+            var currentStudentDTO = studentFacade.getCurrentStudentDTOByUserId(fullUserInfoDTO.getUserId());
+            fullUserInfoDTO.setStudentDTO(currentStudentDTO);
+        } else {
+            var currentTeacherDTO = teacherFacade.getCurrentTeacherDTOByUserId(fullUserInfoDTO.getUserId());
+            fullUserInfoDTO.setTeacherDTO(currentTeacherDTO);
         }
 
         return fullUserInfoDTO;

@@ -45,10 +45,10 @@ public class DocumentFacade {
         var roleId = securityFacade.getCurrentUser().getRole().getRoleId();
         var stageId = documentService.findById(documentId).getStage().getStageId();
         var stageApproves =  roleStageApproveFacade.findStageIdsByRoleId(roleId);
-        var availableApprove = teacherApproveFacade.findApproveStageIdSetByTeacherId(securityFacade.getTeacherByUserId(securityFacade.getCurrentUser().getUserId()).getTeacherId());
-        if (!availableApprove.contains(stageId) && !stageApproves.contains(stageId)  ) {
-            throw new ForbiddenActionException("You cannot approve that document");
-        }
+        var availableTeacherIdApprove = teacherApproveFacade.findApproveStageIdSetByTeacherId(securityFacade.getTeacherByUserId(securityFacade.getCurrentUser().getUserId()).getTeacherId());
+//        if (!availableTeacherIdApprove.contains(stageId) && !stageApproves.contains(stageId)  ) {
+//            throw new ForbiddenActionException("You cannot approve that document");
+//        }
         if (isApproved) {
             return documentFactory.toDocumentDTO(documentService.updateApprovedStatus(documentId,isApproved, ApproveStatus.APPROVED));
         } else {
@@ -60,9 +60,9 @@ public class DocumentFacade {
     public DocumentDTO moveToNextStage (Long documentId, Long stageId) {
         var document = documentService.findById(documentId);
         var availableApprove = teacherApproveFacade.findApproveStageIdSetByTeacherId(securityFacade.getTeacherByUserId(securityFacade.getCurrentUser().getUserId()).getTeacherId());
-        if (!availableApprove.contains(document.getStage().getStageId())) {
-            throw new ForbiddenActionException("You cannot approve that document");
-        }
+//        if (!availableApprove.contains(document.getStage().getStageId())) {
+//            throw new ForbiddenActionException("You cannot approve that document");
+//        }
         return documentFactory.toDocumentDTO(documentService.changeStage(documentId,stageId));
     }
 

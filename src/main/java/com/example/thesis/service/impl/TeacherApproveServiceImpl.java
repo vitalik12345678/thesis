@@ -5,6 +5,7 @@ import com.example.thesis.entity.Stage;
 import com.example.thesis.entity.TeacherApprove;
 import com.example.thesis.exception.ExistException;
 import com.example.thesis.exception.NotExistObjectException;
+import com.example.thesis.repository.RoleStageApproveRepository;
 import com.example.thesis.repository.TeacherApproveRepository;
 import com.example.thesis.service.RoleService;
 import com.example.thesis.service.StageService;
@@ -24,6 +25,7 @@ import java.util.Set;
 public class TeacherApproveServiceImpl extends CRUDServiceImpl<TeacherApprove, Long> implements TeacherApproveService {
 
     private final TeacherApproveRepository teacherApproveRepository;
+    private final RoleStageApproveRepository roleStageApproveRepository;
     private final TeacherService teacherService;
     private final StageService stageService;
     private final RoleService roleService;
@@ -35,8 +37,8 @@ public class TeacherApproveServiceImpl extends CRUDServiceImpl<TeacherApprove, L
 
     @Override
     @Transactional(readOnly = true)
-    public Set<Long> findIdSetByTeacherId(Long teacherId) {
-        return teacherApproveRepository.findIdsByTeacherId(teacherId);
+    public List<Long> findIdSetByRoleId(Long roleId) {
+        return roleStageApproveRepository.findAllByRoleId(roleId);
     }
 
     @Override

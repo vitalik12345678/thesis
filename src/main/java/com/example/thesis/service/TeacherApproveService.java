@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface TeacherApproveService extends CRUDService<TeacherApprove,Long> {
-    Set<Long> findIdSetByTeacherId (Long teacherId);
+    List<Long> findIdSetByRoleId (Long roleId);
 
     TeacherApprove save(Long teacherId,Long stageId);
 

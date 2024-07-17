@@ -66,7 +66,7 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
             throw new ForbiddenActionException("You cannot send request,teacher doesn't have any limits");
         }
 
-        if (Objects.nonNull(teacher.getGeneralMaster())) {
+        if (student.getDegree().equals(Degree.MASTER) && Objects.nonNull(teacher.getGeneralMaster())) {
 
             if (teacher.getGeneralMaster() == 0) {
                 throw new ForbiddenActionException("You cannot send request,teacher doesn't have any master limits");
@@ -78,7 +78,7 @@ public class StudentTeacherRequestServiceImpl extends CRUDServiceImpl<TeacherStu
 
         }
 
-        if (Objects.nonNull(teacher.getGeneralBachelor())) {
+        if (student.getDegree().equals(Degree.BACHELOR) &&Objects.nonNull(teacher.getGeneralBachelor())) {
 
             if (teacher.getGeneralBachelor() == 0) {
                 throw new ForbiddenActionException("You cannot send request,teacher doesn't have any bachelor limits");

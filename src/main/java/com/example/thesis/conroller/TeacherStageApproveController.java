@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -34,7 +35,7 @@ public class TeacherStageApproveController {
     //currentTeacher StageIdList return
 
     @GetMapping("/teacher/{teacherId}")
-    public ResponseEntity<Set<Long>> getTeacherStageDTOList(@PathVariable Long teacherId) {
+    public ResponseEntity<List<Long>> getTeacherStageDTOList(@PathVariable Long teacherId) {
         return ResponseEntity.ok(teacherApproveFacade.findApproveStageIdSetByTeacherId(teacherId));
     }
 

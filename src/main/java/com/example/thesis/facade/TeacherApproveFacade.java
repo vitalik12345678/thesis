@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -15,8 +16,8 @@ public class TeacherApproveFacade {
     private final TeacherApproveService teacherApproveService;
 
     @Transactional(readOnly = true)
-    public Set<Long> findApproveStageIdSetByTeacherId(Long teacherId) {
-        return teacherApproveService.findIdSetByTeacherId(teacherId);
+    public List<Long> findApproveStageIdSetByTeacherId(Long roleId) {
+        return teacherApproveService.findIdSetByRoleId(roleId);
     }
 
     @Transactional
@@ -41,7 +42,7 @@ public class TeacherApproveFacade {
     }
 
     @Transactional(readOnly = true)
-    public Set<Long> findAvailableStageIdsByTeacherId(Long teacherId) {
-        return teacherApproveService.findIdSetByTeacherId(teacherId);
+    public List<Long> findAvailableStageIdsByTeacherId(Long roleId) {
+        return teacherApproveService.findIdSetByRoleId(roleId);
     }
 }
